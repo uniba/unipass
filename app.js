@@ -38,15 +38,16 @@ var createTemplate = require("passbook")
 var template = createTemplate("coupon", {
   teamIdentifier: "2226HKV4QQ",
   passTypeIdentifier: "pass.uniba.sample",
-  "backgroundColor": "rgb(255,255,255)",
   organizationName: "Uniba Inc."
 });
 
 template.keys("./etc/passbook/keys", "1q2w3e4r");
 
 var passbook = template.createPassbook({
-  serialNumber:  "123456",
-  description:   "20% off"
+  "backgroundColor": "rgb(255,255,255)",
+  description: "20% off",
+  serialNumber: "123456",
+  logoText: "Ye!"
 });
 
 passbook.images.icon = './public/images/icon.png';
