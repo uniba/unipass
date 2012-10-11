@@ -32,12 +32,30 @@ http.createServer(app).listen(app.get('port'), function(){
   console.log("Express server listening on port " + app.get('port'));
 });
 
-// var createTemplate = require("passbook");
+var createTemplate = require("passbook")
+  , fs = require('fs');
 
-// var template = createTemplate("coupon", {
-//   passTypeIdentifier: "pass.uniba.sample",
-//   teamIdentifier:     "MXL",
-//   "backgroundColor":   "rgb(255,255,255)"
-// });
+var template = createTemplate("coupon", {
+  teamIdentifier: "2226HKV4QQ",
+  passTypeIdentifier: "pass.uniba.sample",
+  "backgroundColor": "rgb(255,255,255)",
+  organizationName: "Uniba Inc."
+});
 
-// template.keys("/etc/passbook/keys", "secret");
+template.keys("./etc/passbook/keys", "1q2w3e4r");
+
+var passbook = template.createPassbook({
+  serialNumber:  "123456",
+  description:   "20% off"
+});
+
+passbook.images.icon = './public/images/icon.png';
+passbook.images.logo = './public/images/logo.png';
+
+passbook.generate(function(error, buffer) {
+  if (error) {
+    console.log(error);
+  } else {
+    fs.writeFile("passbook.pkpass", buffer);
+  }
+});
