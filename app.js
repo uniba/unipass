@@ -31,3 +31,13 @@ app.get('/', routes.index);
 http.createServer(app).listen(app.get('port'), function(){
   console.log("Express server listening on port " + app.get('port'));
 });
+
+// var createTemplate = require("passbook");
+
+// var template = createTemplate("coupon", {
+//   passTypeIdentifier: "pass.uniba.sample",
+//   teamIdentifier:     "MXL",
+//   "backgroundColor":   "rgb(255,255,255)"
+// });
+
+// template.keys("/etc/passbook/keys", "secret");
