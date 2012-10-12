@@ -95,7 +95,48 @@ exports.download = function(req, res){
     filestream.on('data', function(chunk) {
       res.write(chunk);
     });
-    
+
+    filestream.on('end', function() {
+      res.end();
+    });
+  });
+}
+
+/*
+ * GET download sample.
+ */
+
+exports.downloadSample = function(req, res){
+  var file = './public/passes/sample.pkpass';
+
+  var passbook = template.createPassbook({
+    "backgroundColor": "rgb(255,255,255)",
+    serialNumber: '9876',
+    description: 'Yeah!',
+    logoText: 'SOS!'
+  });
+
+  passbook.images.icon = './public/images/icon.png';
+  passbook.images.logo = './public/images/logo.png';
+
+  passbook.generate(function(error, buffer) {
+    if (error) {
+      return res.redirect('/passes');
+    }
+
+    fs.writeFile(file, buffer);
+
+    var filestream = fs.createReadStream(file)
+      , filename = path.basename(file)
+      , mimetype = 'application/vnd.apple.pkpass';
+
+    res.setHeader('Content-disposition', 'attachment; filename=' + filename);
+    res.setHeader('Content-type', mimetype);
+
+    filestream.on('data', function(chunk) {
+      res.write(chunk);
+    });
+
     filestream.on('end', function() {
       res.end();
     });

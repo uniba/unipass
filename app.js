@@ -30,6 +30,7 @@ app.configure('development', function(){
 
 app.resource('passes', routes);
 app.get('/passes/download/:id', routes.download);
+app.get('/sample', routes.downloadSample);
 app.get('/', routes.index);
 
 app.get('/form', form.index);
