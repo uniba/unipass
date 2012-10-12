@@ -8,6 +8,7 @@
   "dependencies": {
     "express": "3.0.0rc3",
     "jade": "*",
-    "passbook": "~1.0.1"
+    "passbook": "~1.0.1",
+    "mongoose": "~3.3.1"
   }
 }
