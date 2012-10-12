@@ -6,6 +6,7 @@
 var express = require('express')
   , routes = require('./routes')
   , form = require('./routes/form')
+  , test_routing = require('./routes/test_routing')
   , http = require('http')
   , path = require('path');
 
@@ -34,8 +35,15 @@ app.get('/passes/:id', routes.show);
 
 app.get('/passes/download/:id', routes.download);
 app.get('/', routes.index);
-app.get('/form', form.index);
-app.post('/post',form.post)
+
+
+app.get('/form/show', form.show);
+app.post('/form/post',form.post)
+
+app.get('/v1/passes/pass.uniba.sample/:serialNumber', test_routing.show);
+app.post('/v1/devices/:deviceId/registrations/pass.uniba.sample/:serialNumber', test_routing.devise);
+app.del('/v1/devices/:deviceId/registrations/pass.uniba.sample/:serialNumber', test_routing.delete);
+app.post('/v1/log', test_routing.log);
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log("Express server listening on port " + app.get('port'));
