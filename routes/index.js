@@ -11,7 +11,7 @@ var fs = require('fs')
  */
 
 exports.index = function(req, res){
-  passes = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+  var passes = [];
   res.render('index', { title: 'Pass List', passes: passes });
 };
 

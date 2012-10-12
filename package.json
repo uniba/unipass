@@ -9,6 +9,7 @@
     "express": "3.0.0rc3",
     "jade": "*",
     "passbook": "~1.0.1",
-    "node-dev": "*"
+    "node-dev": "*",
+    "mongoose": "~3.3.1"
   }
 }
