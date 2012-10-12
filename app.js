@@ -27,45 +27,16 @@ app.configure('development', function(){
   app.use(express.errorHandler());
 });
 
+app.get('/passes', routes.index);
+app.post('/passes', routes.create);
+app.get('/passes/new', routes.new);
+app.get('/passes/:id', routes.show);
+
+app.get('/passes/download/:id', routes.download);
 app.get('/', routes.index);
 app.get('/form', form.index);
 app.post('/post',form.post)
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log("Express server listening on port " + app.get('port'));
-});
-
-var createTemplate = require("passbook")
-  , fs = require('fs');
-
-var template = createTemplate("coupon", {
-  teamIdentifier: "2226HKV4QQ",
-  passTypeIdentifier: "pass.uniba.sample",
-  organizationName: "Uniba Inc."
-});
-
-template.keys("./etc/passbook/keys", "1q2w3e4r");
-
-var serialNumber = "123456";
-var passbook = template.createPassbook({
-  "backgroundColor": "rgb(255,255,255)",
-  description: "20% off",
-  serialNumber: serialNumber,
-  logoText: "Ye!",
-  barcode:{
-    message:"message",
-    format : "PKBarcodeFormatPDF417",
-    messageEncoding : "iso-8859-1"
-  }
-});
-
-passbook.images.icon = './public/images/icon.png';
-passbook.images.logo = './public/images/logo.png';
-
-passbook.generate(function(error, buffer) {
-  if (error) {
-    console.log(error);
-  } else {
-    fs.writeFile("passbook.pkpass", buffer);
-  }
 });

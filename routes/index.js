@@ -7,11 +7,52 @@ var fs = require('fs')
   , path = require('path');
 
 /*
- * GET home page.
+ * GET list passbooks.
  */
 
 exports.index = function(req, res){
-  var file = './passbook.pkpass'
+  passes = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+  res.render('index', { title: 'Pass List', passes: passes });
+};
+
+/*
+ * GET new passbook.
+ */
+
+exports.new = function(req, res){
+  res.render('new', { title: 'New Pass' });
+}
+
+/*
+ * POST create passbook.
+ */
+
+exports.create = function(req, res){
+  var passbook = template.createPassbook({
+    "backgroundColor": "rgb(255,255,255)",
+    description: "20% off",
+    serialNumber: "123456",
+    logoText: "Ye!"
+  });
+
+  passbook.images.icon = './public/images/icon.png';
+  passbook.images.logo = './public/images/logo.png';
+
+  passbook.generate(function(error, buffer) {
+    if (error) {
+      console.log(error);
+    } else {
+      fs.writeFile("./public/passes/passbook.pkpass", buffer);
+    }
+  });
+}
+
+/*
+ * GET download passbook.
+ */
+
+exports.download = function(req, res){
+  var file = './public/passes/passbook.pkpass'
     , filename = path.basename(file)
     , mimetype = 'application/vnd.apple.pkpass';
 
@@ -25,4 +66,4 @@ exports.index = function(req, res){
   filestream.on('end', function() {
     res.end();
   });
-};
+}
