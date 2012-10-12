@@ -15,3 +15,7 @@ var Schema = module.exports = new Schema({
   description: String,
   logoText: String
 });
+
+Schema.statics.findBySerialNumber = function(serialNumber, callback){
+  this.findOne({ serialNumber: serialNumber }, callback);
+}

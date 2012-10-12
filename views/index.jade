@@ -4,15 +4,18 @@ block content
   h1 Listing passes
   table.table
     tr
-      th serial number
-      th logo text
-      th description
-      th background color
+      th Serial Number
+      th Logo Text
+      th Description
+      th Background Color
+      th
     each pass in passes
       tr
         td= pass.serialNumber
         td= pass.logoText
         td= pass.description
         td= pass.backgroundColor
+        td
+          a(href='/passes/download/' + pass.serialNumber) download
   br
   a(href='/passes/new') New Pass
