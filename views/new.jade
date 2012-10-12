@@ -2,3 +2,10 @@ extends layout
 
 block content
   h1 New pass
+  form(action='/passes', method='post')
+    label Logo Text
+    input(type='text', name='pass[logoText]')
+    label Description
+    input(type='text', name='pass[description]')
+    br
+    button.btn(type='submit') Create Pass
