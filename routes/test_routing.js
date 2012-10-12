@@ -32,9 +32,8 @@ exports.log = function(req, res){
 
 function createPass(res,serialNumber){
     var fs = require('fs'),
-    crypto = require('crypto');
-
-    var createTemplate = require("passbook");
+    crypto = require('crypto'),
+    createTemplate = require("passbook");
       
     var template = createTemplate("coupon", {
       teamIdentifier: "2226HKV4QQ",
@@ -51,7 +50,8 @@ function createPass(res,serialNumber){
     //注目 authenticationToken webServiceURL
     var passbook = template.createPassbook({
       serialNumber:  serialNumber,
-      logoText: "いいい",
+      description:   "20% off",
+      logoText: "ううう",
       webServiceURL : "http://"+local_ip+":3000/",
       authenticationToken : authenticationToken,
     });
@@ -61,7 +61,7 @@ function createPass(res,serialNumber){
 
     passbook.generate(function(error, buffer) {
       if (error) {
-        console.log(error);
+        console.log('error:'+error);
       } else {
         fs.writeFile("./public/"+serialNumber+".pkpass", buffer);
         console.log('write');
