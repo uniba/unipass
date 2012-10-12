@@ -4,10 +4,14 @@ block content
   h1 Listing passes
   table.table
     tr
-      th Name
-      th Yash
-      th Go
-    tr
-      td Sei
-      td No
-      td Yes
+      th serial number
+      th logo text
+      th description
+      th background color
+    each pass in passes
+      tr
+        td= pass.serialNumber
+        td= pass.logoText
+        td= pass.description
+        td= pass.backgroundColor
+  

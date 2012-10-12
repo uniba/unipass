@@ -4,15 +4,18 @@
  */
 
 var fs = require('fs')
-  , path = require('path');
+  , path = require('path')
+  , schema = require('../models')
+  , Pass = schema.Pass;
 
 /*
  * GET list passbooks.
  */
 
 exports.index = function(req, res){
-  var passes = [];
-  res.render('index', { title: 'Pass List', passes: passes });
+  Pass.find({}, function(err, passes) {
+    res.render('index', { title: 'Pass List', passes: passes });
+  });
 };
 
 /*

@@ -4,6 +4,7 @@
  */
 
 var express = require('express')
+  , resource = require('express-resource')
   , routes = require('./routes')
   , form = require('./routes/form')
   , http = require('http')
@@ -27,15 +28,12 @@ app.configure('development', function(){
   app.use(express.errorHandler());
 });
 
-app.get('/passes', routes.index);
-app.post('/passes', routes.create);
-app.get('/passes/new', routes.new);
-app.get('/passes/:id', routes.show);
-
+app.resource('passes', routes);
 app.get('/passes/download/:id', routes.download);
 app.get('/', routes.index);
+
 app.get('/form', form.index);
-app.post('/post',form.post)
+app.post('/post', form.post);
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log("Express server listening on port " + app.get('port'));
