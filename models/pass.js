@@ -10,5 +10,8 @@ var Schema = require('mongoose').Schema
  */
 
 var Schema = module.exports = new Schema({
-  
+  backgroundColor: String,
+  serialNumber: { type: String, unique: true },
+  description: String,
+  logoText: String
 });

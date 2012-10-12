@@ -11,26 +11,7 @@ var fs = require('fs')
  */
 
 exports.index = function(req, res){
-  passes = [
-    {
-      "backgroundColor": "rgb(255,255,255)",
-      description: "20% off",
-      serialNumber: "123456",
-      logoText: "Ye!"
-    },
-    {
-      "backgroundColor": "rgb(255,255,255)",
-      description: "20% off",
-      serialNumber: "123456",
-      logoText: "Ye!"
-    },
-    {
-      "backgroundColor": "rgb(255,255,255)",
-      description: "20% off",
-      serialNumber: "123456",
-      logoText: "Ye!"
-    }
-  ];
+  var passes = [];
   res.render('index', { title: 'Pass List', passes: passes });
 };
 
