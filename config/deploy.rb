@@ -19,7 +19,7 @@ role :app, "pass.uniba.jp"
 role :db,  "pass.uniba.jp", :primary => true 
 
 set :default_environment, {
-  "PATH" => "~/.nodebrew/current/bin:$PATH"
+  "PATH" => "~/.nodebrew/current/bin:/usr/local/bin:/sbin:$PATH"
 }
 
 default_run_options[:pty] = true
@@ -35,4 +35,13 @@ namespace :deploy do
   task :restart, :roles => :app, :except => { :no_release => true } do
     sudo "forever restart #{current_path}/app.js"
   end
+end
+
+after "deploy:create_symlink", :roles => :app do
+  run "ln -svf #{shared_path}/node_modules #{current_path}/node_modules"
+  run "cd #{current_path} && npm i"
+end
+
+after "deploy:setup", :roles => :app do
+  run "mkdir -p #{shared_path}/node_modules"
 end
