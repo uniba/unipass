@@ -36,36 +36,46 @@ exports.create = function(req, res){
   var params = req.body.pass
     , serialNumber = base64id.generateId()
     , logoText = params.logoText
-    , description = params.description;
+    , description = params.description
+    , backgroundColor = params.backgroundColor
+    , primaryFields = [
+      {
+        key: 'origin',
+        value: params.value,
+        label: params.label
+      }
+    ];
 
-  var passInfo = {
-    "backgroundColor": "rgb(255,255,255)",
+  var pass = new Pass({
     serialNumber: serialNumber,
     description: description,
-    logoText: logoText
-  }
-
-  var passbook = template.createPassbook(passInfo);
-
-  passbook.images.icon = './public/images/icon.png';
-  passbook.images.logo = './public/images/logo.png';
-
-  passbook.generate(function(error, buffer) {
-    if (error) {
-      return res.redirect('/passes');
-    }
-
-    fs.writeFile('./public/passes/' + serialNumber + '.pkpass', buffer);
-
-    var pass = new Pass(passInfo);
-    pass.save(function(err, pass) {
-      res.redirect('/passes');
-    });
+    logoText: logoText,
+    backgroundColor: backgroundColor,
+    primaryFields: primaryFields
   });
+
+  console.log(pass.toFields());
+
+  pass.save(function(err) {
+    if (err) throw err;
+
+    var passbook = template.createPassbook(pass.toFields());
+
+    passbook.images.icon = './public/images/icon.png';
+    passbook.images.logo = './public/images/logo.png';
+    passbook.generate(function(err, buffer) {
+      if (err) throw err;
+
+      fs.writeFile('./public/passes/' + serialNumber + '.pkpass', buffer, function(err) {
+        if (err) throw err;
+        res.redirect('/passes');
+      });
+    });
+  })
 }
 
 /**
- * POST create.
+ * GET show.
  */
 
 exports.show = function(req, res){
@@ -110,10 +120,24 @@ exports.downloadSample = function(req, res){
   var file = './public/passes/sample.pkpass';
 
   var passbook = template.createPassbook({
-    "backgroundColor": "rgb(255,255,255)",
-    serialNumber: '9876',
+    backgroundColor: "#FFFFFF",
+    serialNumber: base64id.generateId(),
     description: 'Yeah!',
-    logoText: 'SOS!'
+    logoText: 'SOS!',
+    "coupon": {
+      "primaryFields": [
+        {
+          "key": "origin",
+          "value": "肩もみ券1",
+          "label": "1回だけ有効"
+        },
+        {
+          "key": "destination",
+          "value": "肩もみ券2",
+          "label": "1回だけ有効"
+        }
+     ]
+    }
   });
 
   passbook.images.icon = './public/images/icon.png';
