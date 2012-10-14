@@ -4,9 +4,12 @@ set :repository,  "git@github.com:uniba/#{application}.git"
 set :scm, :git
 set :scm_verbose, true
 set :git_shallow_clone, 1
+set :branch, "master"
 
 set :deploy_to, "~/app/#{application}"
-set :branch, "master"
+set :deploy_via, :remote_cache
+
+set :use_sudo, false
 
 set :user, "deploy"
 set :group, "deploy"
@@ -19,6 +22,7 @@ set :default_environment, {
   "PATH" => "~/.nodebrew/current/bin:$PATH"
 }
 
+default_run_options[:pty] = true
 ssh_options[:forward_agent] = true
 
 namespace :deploy do
