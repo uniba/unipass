@@ -2,3 +2,16 @@ extends layout
 
 block content
   h1 New pass
+  form(action='/passes', method='post')
+    label Logo Text
+    input(type='text', name='pass[logoText]')
+    label Description
+    input(type='text', name='pass[description]')
+    label Background Color
+    input#cp1(type='text', name='pass[backgroundColor]')
+    label Value
+    input(type='text', name='pass[value]')
+    label Label
+    input(type='text', name='pass[label]')
+    br
+    button.btn(type='submit') Create Pass
