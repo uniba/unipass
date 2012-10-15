@@ -29,7 +29,8 @@ exports.notification = function(req, res) {
   
   data = {
     lastUpdated:update,
-    serialNumbers:["aaa12tlj4525"]
+    //TODO serialNumbersに新しい、のを入れる。
+    serialNumbers:["aaa12aaaadsadgjtwpm"]
     }
   res.send(200, JSON.stringify(data));
 };
@@ -47,7 +48,7 @@ function createPass(res, serialNumber) {
   var template = createTemplate("coupon", {
     teamIdentifier : "2226HKV4QQ",
     passTypeIdentifier : "pass.uniba.sample",
-    backgroundColor : "rgb(200,200,255)",
+    backgroundColor : "rgb(000,200,255)",
     organizationName : "Uniba Inc."
   });
 
@@ -60,7 +61,7 @@ function createPass(res, serialNumber) {
   var passbook = template.createPassbook({
     serialNumber : serialNumber,
     description : "uniba",
-    logoText : "uniba new",
+    logoText : "uniba new new",
     webServiceURL : "http://" + local_ip + ":3000/",
     authenticationToken : authenticationToken//z,
     /*locations : [{

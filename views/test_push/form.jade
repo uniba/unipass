@@ -1,6 +1,9 @@
 extends ../layout
 
+
 block content
   form(method="POST", action="notify")
-    input(type="text", name="devise_id", autofocus)
+    input(type="text", name="pushToken", autofocus)
     input(type='submit', value='送信')
+
+    p pushToken

@@ -1,7 +1,6 @@
 var apns = require('apn');
 
 exports.form = function(req, res) {
-  console.log('aaaaa')
   res.render('test_push/form', {
     title : 'test_push'
   });
@@ -24,20 +23,14 @@ exports.notify = function(req, res) {
   };
 
   var apnsConnection = new apns.Connection(options);
-  var myDevice = new apns.Device(req.body.devise_id);
+  var myDevice = new apns.Device(req.body.pushToken);
   var note = new apns.Notification();
-
-  // note.expiry = Math.floor(Date.now() / 1000) + 3600;
-  // // Expires 1 hour from now.
-  // note.badge = 3;
-   note.sound = "ping.aiff";
-   note.alert = "You have a new message";
-  // note.payload = {};
-  note.serialNumber = "aaa12tlj4525";
+  //TODO serialNumber 
+  note.serialNumber = "aaa12aaaadsadgjtwpm";
   note.device = myDevice;
 
   apnsConnection.sendNotification(note);
-  console.log('devise_id:'+req.body.devise_id)
+  console.log('pushToken:'+req.body.pushToken)
   res.redirect('push/form');
 };
 function errorCall(err,notification){
