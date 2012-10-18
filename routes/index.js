@@ -65,7 +65,7 @@ exports.create = function(req, res){
     passbook.generate(function(err, buffer) {
       if (err) throw err;
 
-      fs.writeFile('./public/passes/' + serialNumber + '.pkpass', buffer, function(err) {
+      fs.writeFile(helpers.joinRoot('public/passes/' + serialNumber + '.pkpass'), buffer, function(err) {
         if (err) throw err;
         res.redirect('/passes');
       });
@@ -116,7 +116,8 @@ exports.download = function(req, res){
  */
 
 exports.downloadSample = function(req, res){
-  var file = './public/passes/sample.pkpass';
+  var file = helpers.joinRoot('public/passes/sample.pkpass');
+  console.log(file);
 
   var passbook = template.createPassbook({
     backgroundColor: "#FFFFFF",
@@ -139,8 +140,8 @@ exports.downloadSample = function(req, res){
     }
   });
 
-  passbook.images.icon = './public/images/icon.png';
-  passbook.images.logo = './public/images/logo.png';
+  passbook.images.icon = helpers.joinRoot('public/images/icon.png');
+  passbook.images.logo = helpers.joinRoot('public/images/logo.png');
 
   passbook.generate(function(error, buffer) {
     if (error) {
