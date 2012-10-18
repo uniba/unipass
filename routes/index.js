@@ -36,6 +36,7 @@ exports.new = function(req, res){
 exports.create = function(req, res){
   var params = req.body.pass
     , serialNumber = base64id.generateId()
+    , file = helpers.joinRoot('public/passes/' + serialNumber + '.pkpass')
     , logoText = params.logoText
     , description = params.description
     , backgroundColor = params.backgroundColor
@@ -56,16 +57,16 @@ exports.create = function(req, res){
   });
 
   pass.save(function(err) {
-    if (err) throw err;
-
+    if (err) throw err; // TODO: handle error
+    
     var passbook = template.createPassbook(pass.toFields());
 
-    passbook.images.icon = helpers.joinRoot('public/images/icon.png');
-    passbook.images.logo = helpers.joinRoot('public/images/logo.png');
+    passbook.icon(helpers.joinRoot('public/images/icon.png'));
+    passbook.logo(helpers.joinRoot('public/images/logo.png'));
     passbook.generate(function(err, buffer) {
       if (err) throw err;
 
-      fs.writeFile(helpers.joinRoot('public/passes/' + serialNumber + '.pkpass'), buffer, function(err) {
+      fs.writeFile(file, buffer, function(err) {
         if (err) throw err;
         res.redirect('/passes');
       });
@@ -89,11 +90,9 @@ exports.download = function(req, res){
   var serialNumber = req.params.id;
 
   Pass.findBySerialNumber(serialNumber, function(err, pass) {
-    if (!pass) {
-      // handle error
-    }
+    if (err) throw err; // TODO: handle error
 
-    var file = './public/passes/' + pass.serialNumber + '.pkpass'
+    var file = helpers.joinRoot('public/passes/' + pass.serialNumber + '.pkpass')
       , filestream = fs.createReadStream(file)
       , filename = path.basename(file)
       , mimetype = 'application/vnd.apple.pkpass';
