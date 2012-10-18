@@ -6,7 +6,6 @@
 var express = require('express')
   , resource = require('express-resource')
   , routes = require('./routes')
-  , form = require('./routes/form')
   , http = require('http')
   , path = require('path');
 

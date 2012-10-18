@@ -5,6 +5,7 @@
 
 var base64id = require('base64id')
   , fs = require('fs')
+  , helpers = require('../lib/helpers')
   , path = require('path')
   , template = require('../lib/template')
   , schema = require('../models')
@@ -54,15 +55,13 @@ exports.create = function(req, res){
     primaryFields: primaryFields
   });
 
-  console.log(pass.toFields());
-
   pass.save(function(err) {
     if (err) throw err;
 
     var passbook = template.createPassbook(pass.toFields());
 
-    passbook.images.icon = './public/images/icon.png';
-    passbook.images.logo = './public/images/logo.png';
+    passbook.images.icon = helpers.joinRoot('public/images/icon.png');
+    passbook.images.logo = helpers.joinRoot('public/images/logo.png');
     passbook.generate(function(err, buffer) {
       if (err) throw err;
 
