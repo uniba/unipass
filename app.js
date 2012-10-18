@@ -33,9 +33,6 @@ app.get('/passes/download/:id', routes.download);
 app.get('/sample', routes.downloadSample);
 app.get('/', routes.index);
 
-app.get('/form', form.index);
-app.post('/post', form.post);
-
 http.createServer(app).listen(app.get('port'), function(){
   console.log("Express server listening on port " + app.get('port'));
 });
