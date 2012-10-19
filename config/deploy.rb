@@ -27,13 +27,13 @@ ssh_options[:forward_agent] = true
 
 namespace :deploy do
   task :start, :roles => :app do
-    sudo "forever start #{current_path}/app.js"
+    sudo "PORT=80 forever start #{current_path}/app.js"
   end
   task :stop, :roles => :app do
     sudo "forever stop #{current_path}/app.js"
   end
   task :restart, :roles => :app, :except => { :no_release => true } do
-    sudo "forever restart #{current_path}/app.js"
+    sudo "PORT=80 forever restart #{current_path}/app.js"
   end
 end
 
