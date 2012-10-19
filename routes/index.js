@@ -5,6 +5,7 @@
 
 var base64id = require('base64id')
   , fs = require('fs')
+  , helpers = require('../lib/helpers')
   , path = require('path')
   , template = require('../lib/template')
   , schema = require('../models')
@@ -35,37 +36,46 @@ exports.new = function(req, res){
 exports.create = function(req, res){
   var params = req.body.pass
     , serialNumber = base64id.generateId()
+    , file = helpers.joinRoot('public/passes/' + serialNumber + '.pkpass')
     , logoText = params.logoText
-    , description = params.description;
+    , description = params.description
+    , backgroundColor = params.backgroundColor
+    , primaryFields = [
+      {
+        key: 'origin',
+        value: params.value,
+        label: params.label
+      }
+    ];
 
-  var passInfo = {
-    "backgroundColor": "rgb(255,255,255)",
+  var pass = new Pass({
     serialNumber: serialNumber,
     description: description,
-    logoText: logoText
-  }
-
-  var passbook = template.createPassbook(passInfo);
-
-  passbook.images.icon = './public/images/icon.png';
-  passbook.images.logo = './public/images/logo.png';
-
-  passbook.generate(function(error, buffer) {
-    if (error) {
-      return res.redirect('/passes');
-    }
-
-    fs.writeFile('./public/passes/' + serialNumber + '.pkpass', buffer);
-
-    var pass = new Pass(passInfo);
-    pass.save(function(err, pass) {
-      res.redirect('/passes');
-    });
+    logoText: logoText,
+    backgroundColor: backgroundColor,
+    primaryFields: primaryFields
   });
+
+  pass.save(function(err) {
+    if (err) throw err; // TODO: handle error
+    
+    var passbook = template.createPassbook(pass.toFields());
+
+    passbook.icon(helpers.joinRoot('public/images/icon.png'));
+    passbook.logo(helpers.joinRoot('public/images/logo.png'));
+    passbook.generate(function(err, buffer) {
+      if (err) throw err;
+
+      fs.writeFile(file, buffer, function(err) {
+        if (err) throw err;
+        res.redirect('/passes');
+      });
+    });
+  })
 }
 
 /**
- * POST create.
+ * GET show.
  */
 
 exports.show = function(req, res){
@@ -80,11 +90,9 @@ exports.download = function(req, res){
   var serialNumber = req.params.id;
 
   Pass.findBySerialNumber(serialNumber, function(err, pass) {
-    if (!pass) {
-      // handle error
-    }
+    if (err) throw err; // TODO: handle error
 
-    var file = './public/passes/' + pass.serialNumber + '.pkpass'
+    var file = helpers.joinRoot('public/passes/' + pass.serialNumber + '.pkpass')
       , filestream = fs.createReadStream(file)
       , filename = path.basename(file)
       , mimetype = 'application/vnd.apple.pkpass';
@@ -107,17 +115,32 @@ exports.download = function(req, res){
  */
 
 exports.downloadSample = function(req, res){
-  var file = './public/passes/sample.pkpass';
+  var file = helpers.joinRoot('public/passes/sample.pkpass');
+  console.log(file);
 
   var passbook = template.createPassbook({
-    "backgroundColor": "rgb(255,255,255)",
-    serialNumber: '9876',
+    backgroundColor: "#FFFFFF",
+    serialNumber: base64id.generateId(),
     description: 'Yeah!',
-    logoText: 'SOS!'
+    logoText: 'SOS!',
+    "coupon": {
+      "primaryFields": [
+        {
+          "key": "origin",
+          "value": "肩もみ券1",
+          "label": "1回だけ有効"
+        },
+        {
+          "key": "destination",
+          "value": "肩もみ券2",
+          "label": "1回だけ有効"
+        }
+     ]
+    }
   });
 
-  passbook.images.icon = './public/images/icon.png';
-  passbook.images.logo = './public/images/logo.png';
+  passbook.images.icon = helpers.joinRoot('public/images/icon.png');
+  passbook.images.logo = helpers.joinRoot('public/images/logo.png');
 
   passbook.generate(function(error, buffer) {
     if (error) {
