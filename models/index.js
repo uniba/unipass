@@ -23,3 +23,4 @@ var db = exports.db = mongoose.createConnection(config.host, config.database);
  */
 
 exports.Pass = db.model('Pass', require('./pass'));
+exports.User = db.model('User', require('./user'));

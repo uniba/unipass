@@ -1,0 +1,1 @@
+module.exports = (process.env.NODE_ENV) ? 'http://pass.uniba.jp/' : 'http://10.4.0.54:3000/';

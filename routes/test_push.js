@@ -33,6 +33,7 @@ exports.notify = function(req, res) {
   console.log('pushToken:'+req.body.pushToken)
   res.redirect('push/form');
 };
+
 function errorCall(err,notification){
   console.log('err:'+err);
   console.log('notification:'+notification);  

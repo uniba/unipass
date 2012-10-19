@@ -1,0 +1,19 @@
+extends layout
+
+block content
+  h1= title
+  form(action='/passes/'+pass.id, method='post')
+    input(type='hidden',name='_method' , value='put')
+    input(type='hidden',name='pass[serialNumber]' , value=pass.serialNumber)
+    label Logo Text
+    input(type='text', name='pass[logoText]' ,value=pass.logoText)
+    label Description
+    input(type='text', name='pass[description]',value=pass.description)
+    label Background Color
+    input#cp1(type='text', name='pass[backgroundColor]',value=pass.backgroundColor)
+    label Value
+    input(type='text', name='pass[value]',value=pass.primaryFields[0].value)
+    label Label
+    input(type='text', name='pass[label]',value=pass.primaryFields[0].label)
+    br
+    button.btn(type='submit') update

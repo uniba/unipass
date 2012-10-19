@@ -1,0 +1,20 @@
+extends layout
+
+block content
+  a(href='/passes') Pass List
+  h1=title
+  table.table
+    tr
+      th Pass Object Id
+      th DeviceId
+      th PushToken
+      th AuthenticationToken
+      th Push 更新
+    each user in users
+      tr
+        td= user._passbook
+        td= user.deviceId
+        td= user.pushToken
+        td= user.authenticationToken
+        td
+          a(href='/') Push
