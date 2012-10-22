@@ -10,7 +10,8 @@ var express = require('express')
   , users = require('./routes/user')
   , notify = require('./routes/notify')
   , http = require('http')
-  , path = require('path');
+  , path = require('path')
+  , env = require('./config/env');
 
 var app = express();
 
@@ -52,4 +53,5 @@ app.post('/v1/log', client.log);
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log("Express server listening on port " + app.get('port'));
+  console.log("config/env.js ドメインが正しいか確認して下さい。: " + env );
 });
