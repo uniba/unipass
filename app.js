@@ -11,7 +11,9 @@ var express = require('express')
   , notify = require('./routes/notify')
   , http = require('http')
   , path = require('path')
-  , env = require('./config/env');
+  , env = require('./config/env') 
+  , mkdirp = require('mkdirp')
+  , dirs = require('./config/dirs');
 
 var app = express();
 
@@ -36,6 +38,7 @@ app.resource('users', users);
 //app.get('/passes/download/:id', routes.download);
 //app.get('/sample', routes.downloadSample);
 app.get('/', routes.index);
+
 app.get('/notify/:serialNumber', notify.index);
 app.get('/v1/devices/:deviceId/registrations/pass.uniba.sample', notify.notification);
 // app.get('/form/show', form.show);
@@ -47,11 +50,21 @@ app.post('/v1/devices/:deviceId/registrations/pass.uniba.sample/:serialNumber', 
 app.del('/v1/devices/:deviceId/registrations/pass.uniba.sample/:serialNumber', client.del);
 app.post('/v1/log', client.log);
 
+for (var i in dirs) {
+  console.log(dirs[i]);
+  mkdirp(dirs[i], function(err) {
+    if (err) {
+      console.error(err)
+    } else {
+      //console.log('')
+    }
+  });
+}
 // app.get('/push/form', test_push.form);
 // app.get('/push/iptoy', test_push.iptoy);
 // app.post('/push/notify', test_push.notify);
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log("Express server listening on port " + app.get('port'));
-  console.log("config/env.js ドメインが正しいか確認して下さい。: " + env );
+  console.log("config/env.js。 あなたのPCのドメインと一致しているか確認して下さい。: " + env );
 });

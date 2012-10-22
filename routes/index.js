@@ -10,7 +10,9 @@ var base64id = require('base64id')
   , template = require('../lib/template')
   , schema = require('../models')
   , Pass = schema.Pass
-  , util = require('util');
+  , util = require('util')
+  , formidable = require('formidable') 
+  , im = require('imagemagick');
 
 /*
  * GET index.
@@ -70,96 +72,110 @@ exports.update = function(req, res){
 /**
  * POST create.
  */
-exports.create = function(req, res){
+
+exports.create = function(req, res) {
   var params = req.body.pass
-    , serialNumber = base64id.generateId()
-    , logoText = params.logoText
-    , description = params.description
-    , backgroundColor = params.backgroundColor
-    , primaryFields = [
-      {
-        key: 'origin',
-        value: params.value,
-        label: params.label
-      }
-    ];
+  , serialNumber = base64id.generateId()
+  , logoText = params.logoText
+  , description = params.description
+  , backgroundColor = params.backgroundColor
+  , primaryFields = [{
+    key : 'origin',
+    value : params.value,
+    label : params.label
+  }];
 
-  var pass = new Pass({
-    serialNumber: serialNumber,
-    description: description,
-    logoText: logoText,
-    backgroundColor: backgroundColor,
-    primaryFields: primaryFields
+  console.log('image:' + util.inspect(req.files.pass.image));
+  saveFile(req.files.pass.image,function(fileName){
+    console.log('imgName:'+fileName);
+    var pass = new Pass({
+      serialNumber : serialNumber,
+      description : description,
+      logoText : logoText,
+      backgroundColor : backgroundColor,
+      primaryFields : primaryFields,
+      image:fileName
+    });
+  
+    pass.save(function(err) {
+      if (err)
+        throw err;
+      // TODO: handle error
+      res.redirect('/passes');
+    })    
   });
-
-  pass.save(function(err) {
-    if (err) throw err; // TODO: handle error
-    res.redirect('/passes');
-  })
 }
 
 
 
-/*
- * GET download.
- */
+//TODO pngを正しく変換する必要があるかもしれないけどとりあえず、
+//jpeg のformatに .pngの名前をつける
 
-// exports.download = function(req, res){
+function saveFile(imageObj,callback) {
+  var ext = imageObj.type.match(/\/\w*/)[0].replace(/\//, '.');
+  var fromPath = imageObj.path;
+  var fileName = base64id.generateId() + '.png';
+  var toPath = __dirname + '/../etc/passImages/' + fileName;
+  fs.rename(fromPath, toPath, function(err) {
+    if (err)throw err;
+    //return fileName;
+    return callback(fileName);
+  });
+};
+
+// TODO あとで使う
+// function saveFile(imageObj) {
+  // var ext = imageObj.type.match(/\/\w*/)[0].replace(/\//, '.');
+// 
+  // var fromPath = imageObj.path;
+  // im.readMetadata(fromPath,function(err,metadata){
+    // //http://www.netoven.com/det.php?d=20120927134402
+    // //http://thenewglory.blog.fc2.com/blog-category-12.html
+    // console.log(metadata.exif)
+    // var orientation = metadata.exif.orientation;
+    // switch(orientation){
+      // case 1:
+        // break;
+      // case 2:
+//       
+        // break;
+    // }
+  // })
+//   
+  // var fileName = base64id.generateId() + '.png';
+  // var toPath = __dirname + '/../etc/passImages/' + fileName; 
+  // if (ext == '.png') {
+    // fs.rename(fromPath, toPath, function(err) {
+      // if (err)
+        // throw err;
+    // });
+  // } else {
+//        
+    // console.log(fromPath);
+    // console.log(toPath);
+    // im.convert([fromPath, toPath], function(err, stdout) {
+      // if (err)
+        // throw err;
+      // fs.unlink(fromPath, function(err) {
+        // if (err)
+          // throw err;
+        // //console.log('successfully deleted /tmp/hello');
+      // })
+    // });
+  // }
+  // return fileName;
 // }
 
-/*
- * GET download sample.
- */
 
-// exports.downloadSample = function(req, res){
-  // var file = helpers.joinRoot('public/passes/sample.pkpass');
-  // console.log(file);
-// 
-  // var passbook = template.createPassbook({
-    // backgroundColor: "#FFFFFF",
-    // serialNumber: base64id.generateId(),
-    // description: 'Yeah!',
-    // logoText: 'SOS!',
-    // "coupon": {
-      // "primaryFields": [
-        // {
-          // "key": "origin",
-          // "value": "肩もみ券1",
-          // "label": "1回だけ有効"
-        // },
-        // {
-          // "key": "destination",
-          // "value": "肩もみ券2",
-          // "label": "1回だけ有効"
-        // }
-     // ]
-    // }
-  // });
-// 
-  // passbook.images.icon = helpers.joinRoot('public/images/icon.png');
-  // passbook.images.logo = helpers.joinRoot('public/images/logo.png');
-// 
-  // passbook.generate(function(error, buffer) {
-    // if (error) {
-      // return res.redirect('/passes');
-    // }
-// 
-    // fs.writeFile(file, buffer);
-// 
-    // var filestream = fs.createReadStream(file)
-      // , filename = path.basename(file)
-      // , mimetype = 'application/vnd.apple.pkpass';
-// 
-    // res.setHeader('Content-disposition', 'attachment; filename=' + filename);
-    // res.setHeader('Content-type', mimetype);
-// 
-    // filestream.on('data', function(chunk) {
-      // res.write(chunk);
-    // });
-// 
-    // filestream.on('end', function() {
-      // res.end();
-    // });
-  // });
-// }
+
+
+
+
+
+
+
+
+
+
+
 

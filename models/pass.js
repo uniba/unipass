@@ -10,6 +10,8 @@ var Schema = require('mongoose').Schema
 ,env = require('../config/env')
 ,fs = require('fs')
 ,crypto = require('crypto');
+
+
 /**
  * Pass schema definition.
  */
@@ -22,8 +24,9 @@ var PassSchema = module.exports = new Schema({
   primaryFields: [Schema.Types.Mixed],
   created: { type: Date, default: Date.now },
   updated: { type: Date, default: Date.now },
-  authenticationToken:{ type: String , unique: true , default: crypto.randomBytes(48).toString('hex') },
-  _users : [{ type: Schema.Types.ObjectId, ref: 'User' }]
+  authenticationToken:{ type: String , default: crypto.randomBytes(48).toString('hex') },
+  _users : [{ type: Schema.Types.ObjectId, ref: 'User' }],
+  image: String
 });
 
 PassSchema.pre('save', function (next) {
@@ -47,7 +50,7 @@ PassSchema.methods.toFields = function(callback){
     logoText: self.logoText,
     description: self.description,
     backgroundColor: self.backgroundColor,
-    coupon: { primaryFields: self.primaryFields },
+    generic: { primaryFields: self.primaryFields },
     webServiceURL:env,
     authenticationToken:self.authenticationToken
   }
@@ -60,6 +63,7 @@ function createPassbook(passModel){
   
   passbook.icon(helpers.joinRoot('public/images/icon.png'));
   passbook.logo(helpers.joinRoot('public/images/logo.png'));
+  passbook.thumbnail(helpers.joinRoot('etc/passImages/'+passModel.image));
   passbook.generate(function(err, buffer) {
     if (err) throw err;
 

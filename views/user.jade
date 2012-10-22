@@ -9,12 +9,12 @@ block content
       th DeviceId
       th PushToken
       th AuthenticationToken
-      th Push 更新
+      //th Push 更新
     each user in users
       tr
-        td= user._passbook
+        td= user._passbook.logoText
         td= user.deviceId
         td= user.pushToken
         td= user.authenticationToken
-        td
+        //td
           a(href='/') Push

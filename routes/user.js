@@ -5,7 +5,7 @@ var schema = require('../models')
 
 exports.index = function(req, res){
 
-  User.find({}, function(err, users) {
+  User.find().populate('_passbook').exec(function(err, users) {
     res.render('user', { title: 'User List', users: users});
   });
 };
