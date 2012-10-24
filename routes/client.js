@@ -108,7 +108,7 @@ function sendPkpass(serialNumber, res) {
       throw res.send(500);
     }
 
-    var filePath = helpers.joinRoot('public/passes/' + pass.serialNumber + '.pkpass'), 
+    var filePath = helpers.joinRoot('public/passes/' + pass.serialNumber + '.pkpass')
       , filename = path.basename(filePath);
     
     res.setHeader('Content-disposition', 'attachment; filename=' + filename);
