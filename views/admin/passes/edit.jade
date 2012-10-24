@@ -1,0 +1,31 @@
+extends ../layout
+
+block content
+  .page-header
+    h1= title
+  form.form-horizontal(action='/admin/passes/' + pass.id, method='post')
+    input(type='hidden',name='_method', value='put')
+    input(type='hidden',name='pass[serialNumber]', value=pass.serialNumber)
+    .control-group
+      label.control-label Logo text
+      .controls
+        input(type='text', name='pass[logoText]', value=pass.logoText)
+    .control-group
+      label.control-label Description
+      .controls
+        input(type='text', name='pass[description]', value=pass.description)
+    .control-group
+      label.control-label Background Color
+      .controls
+        input#cp1(type='text', name='pass[backgroundColor]', value=pass.backgroundColor)
+    .control-group
+      label.control-label Value
+      .controls
+        input(type='text', name='pass[value]', value=pass.primaryFields[0].value)
+    .control-group
+      label.control-label Label
+      .controls
+        input(type='text', name='pass[label]', value=pass.primaryFields[0].label)
+
+    .form-actions
+      button.btn.btn-primary(type='submit') Update pass

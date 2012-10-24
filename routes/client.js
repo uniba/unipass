@@ -1,12 +1,12 @@
-var util = require('util');
-var base64id = require('base64id')
+var util = require('util')
+  , base64id = require('base64id')
   , fs = require('fs')
   , helpers = require('../lib/helpers')
   , path = require('path')
   , template = require('../lib/template')
-  , schema = require('../models')
-  , Pass = schema.Pass
-  , User = schema.User;
+  , models = require('../models')
+  , Pass = models.Pass
+  , User = models.User;
 
 exports.show = function(req, res) {
   console.log('show----------------------------');

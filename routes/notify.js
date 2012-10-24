@@ -1,6 +1,6 @@
-var schema = require('../models')
-  , Pass = schema.Pass
-  , User = schema.User
+var models = require('../models')
+  , Pass = models.Pass
+  , User = models.User
   , util = require('util')
   , apns = require('apn');
   

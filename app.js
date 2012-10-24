@@ -5,9 +5,11 @@
 
 var express = require('express')
   , resource = require('express-resource')
+  , namespace = require('express-namespace')
   , routes = require('./routes')
+  , face = require('./routes/face')
   , client = require('./routes/client')
-  , users = require('./routes/user')
+  , users = require('./routes/users')
   , notify = require('./routes/notify')
   , http = require('http')
   , path = require('path')
@@ -23,7 +25,16 @@ process.on('uncaughtException', function(e) {
   console.error(e.message, e.stack);
 });
 
-var app = express();
+/**
+ * Create the app.
+ */
+
+var app = express()
+  , server = module.exports = http.createServer(app);
+
+/**
+ * Configuration.
+ */
 
 app.configure(function(){
   app.set('port', process.env.PORT || 3000);
@@ -41,27 +52,47 @@ app.configure('development', function(){
   app.use(express.errorHandler());
 });
 
-app.resource('passes', routes);
-app.resource('users', users);
-//app.get('/passes/download/:id', routes.download);
-//app.get('/sample', routes.downloadSample);
-app.get('/', routes.index);
+/**
+ * Routes for facepass.
+ */
 
-app.get('/notify/:serialNumber', notify.index);
-app.get('/v1/devices/:deviceId/registrations/pass.uniba.sample', notify.notification);
-// app.get('/form/show', form.show);
-// app.post('/form/post',form.post)
+app.resource('/face', face);
 
-app.get('/v1/passes/pass.uniba.sample/:serialNumber', client.show);
+/**
+ * Routes for administration.
+ */
 
-app.post('/v1/devices/:deviceId/registrations/pass.uniba.sample/:serialNumber', client.devise);
-app.del('/v1/devices/:deviceId/registrations/pass.uniba.sample/:serialNumber', client.del);
-app.post('/v1/log', client.log);
+app.namespace('/admin', function() {
+  app.get('/', routes.index);
 
-// app.get('/push/form', test_push.form);
-// app.get('/push/iptoy', test_push.iptoy);
-// app.post('/push/notify', test_push.notify);
+  app.resource('passes', routes);
+  app.resource('users', users);
 
+  // app.get('/passes/download/:id', routes.download);
+  // app.get('/sample', routes.downloadSample);
+  app.get('/notify/:serialNumber', notify.index);
+
+  // app.get('/form/show', form.show);
+  // app.post('/form/post',form.post);
+
+  // app.get('/push/form', test_push.form);
+  // app.get('/push/iptoy', test_push.iptoy);
+  // app.post('/push/notify', test_push.notify);
+});
+
+/**
+ * Routes for Passbook web service.
+ *
+ * @see https://developer.apple.com/library/ios/#documentation/PassKit/Reference/PassKit_WebService/WebService.html
+ */
+
+app.namespace('/v1', function() {
+  app.post('/log', client.log);
+  app.get('/devices/:deviceId/registrations/pass.uniba.sample', notify.notification);
+  app.get('/passes/pass.uniba.sample/:serialNumber', client.show);
+  app.post('/devices/:deviceId/registrations/pass.uniba.sample/:serialNumber', client.devise);
+  app.del('/devices/:deviceId/registrations/pass.uniba.sample/:serialNumber', client.del);
+});
 
 /**
  * Show all routes.
@@ -73,7 +104,13 @@ Object.keys(app.routes).forEach(function(method) {
   });
 });
 
-http.createServer(app).listen(app.get('port'), function(){
-  console.log("Express server listening on port " + app.get('port'));
-  console.log("config/env.js。 あなたのPCのドメインと一致しているか確認して下さい。: " + env );
-});
+/**
+ * Boot.
+ */
+
+if (!module.parent) {
+  server.listen(app.get('port'), function() {
+    console.log("Express server listening on port " + app.get('port'));
+    console.log("config/env.js。 あなたのPCのドメインと一致しているか確認して下さい。: " + env );
+  });
+}

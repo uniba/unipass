@@ -20,13 +20,20 @@ var base64id = require('base64id')
 
 exports.index = function(req, res) {
   var passTypeIdentifier = template.fields.passTypeIdentifier;
-  Pass.find({}, function(err, passes) {
-    res.render('index', { title: 'Pass List', passes: passes ,passTypeIdentifier:passTypeIdentifier});
-  });
+  
+  Pass
+    .find()
+    .sort('-created')
+    .exec(function(err, passes) {
+      if (err) {
+        return res.send(500);
+      }
+      res.render('admin/index', { title: 'Pass List', passes: passes, passTypeIdentifier: passTypeIdentifier});
+    });
 };
 
 exports.show = function(req, res) {
-  res.redirect('/passes');
+  res.redirect('/admin/passes');
 };
 
 /*
@@ -34,15 +41,13 @@ exports.show = function(req, res) {
  */
 
 exports.new = function(req, res) {
-  res.render('new', { title: 'New Pass' });
+  res.render('admin/passes/new', { title: 'New Pass' });
 };
 
 exports.edit = function(req, res) {
   var passId = req.params.pass;
-  console.log(passId);
   Pass.findOne({ _id : passId  }, function(err, pass) {
-    console.log(pass);
-    res.render('edit', { title: 'Pass Edit', pass: pass});
+    res.render('admin/passes/edit', { title: 'Edit Pass', pass: pass});
   });
 };
 
@@ -61,13 +66,16 @@ exports.update = function(req, res) {
   console.log('params:' + util.inspect(req.params.pass));
 
   Pass.findOne({ _id: req.params.pass }, function(err, pass) {
-    console.log(pass);
     pass.logoText = logoText;
     pass.description = description;
     pass.backgroundColor = backgroundColor;
     pass.primaryFields = primaryFields;
-    pass.save();
-    res.redirect('/passes');
+    pass.save(function(err, pass) {
+      if (err) {
+        return res.send(500);
+      }
+      res.redirect('/admin/passes');
+    });
   });
 };
 
@@ -90,7 +98,7 @@ exports.create = function(req, res) {
   console.log('image:' + util.inspect(req.files.pass.image));
 
   saveFile(req.files.pass.image, function(fileName) {
-    console.log('imgName:'+fileName);
+    console.log('imgName:' + fileName);
     var pass = new Pass({
       serialNumber: serialNumber,
       description: description,
@@ -100,12 +108,12 @@ exports.create = function(req, res) {
       image: fileName
     });
   
-    pass.save(function(err) {
+    pass.save(function(err, pass) {
       if (err) {
         // TODO: handle error
         throw err;
       }
-      res.redirect('/passes');
+      res.redirect('/admin/passes');
     });
   });
 };

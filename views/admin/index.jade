@@ -1,0 +1,31 @@
+extends layout
+
+block content
+  .page-header
+    h1 Listing passes
+  table.table
+    tr
+      th Serial Number
+      th Logo Text
+      th Description
+      th Color
+      th Created
+      th Updated
+      th
+    each pass in passes
+      tr
+        td= pass.serialNumber
+        td= pass.logoText
+        td= pass.description
+        td= pass.backgroundColor
+        td(data-date=pass.created.getTime())= pass.created
+        td(data-date=pass.updated.getTime())= pass.updated
+        td
+          .btn-toolbar
+            .btn-group
+              a.btn.btn-primary.btn-small(href='/v1/passes/' + passTypeIdentifier + '/' + pass.serialNumber)
+                i.icon-download.icon-white
+              a.btn.btn-small(href='/admin/passes/'+pass.id+'/edit')
+                i.icon-edit
+              a.btn.btn-small(href='/admin/notify/'+pass.serialNumber)
+                i.icon-circle-arrow-up

@@ -1,0 +1,32 @@
+extends ../layout
+
+block content
+  .page-header
+    h1 New pass
+  form.form-horizontal(action='/admin/passes', method='post', enctype='multipart/form-data')
+    .control-group
+      label.control-label Logo Text
+      .controls
+        input(type='text', name='pass[logoText]')
+    .control-group
+      label.control-label Description
+      .controls
+        input(type='text', name='pass[description]')
+    .control-group
+      label.control-label Background Color
+      .controls
+        input#cp1(type='text', name='pass[backgroundColor]')
+    .control-group
+      label.control-label Label
+      .controls
+        input(type='text', name='pass[label]')
+    .control-group
+      label.control-label Value
+      .controls
+        input(type='text', name='pass[value]')
+    .control-group
+      label.control-label Image
+      .controls
+        input(type='file', name='pass[image]', accept="image/*")
+    .form-actions
+      button.btn.btn-primary(type='submit') Create pass

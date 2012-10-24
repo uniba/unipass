@@ -1,12 +1,21 @@
 body {
   padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  font: 13px "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-weight: 200;
 }
 
 a {
   color: #00B7FF;
 }
 
-textarea, input[type="text"], input[type="password"], input[type="datetime"], input[type="datetime-local"], input[type="date"], input[type="month"], input[type="time"], input[type="week"], input[type="number"], input[type="email"], input[type="url"], input[type="search"], input[type="tel"], input[type="color"], .uneditable-input {
-  height: 30px;
+h1, h2, h3, h4, h5, h6 {
+  font-weight: 100;
+}
+
+table.table th {
+  border-top: 0;
+}
+
+table.table td {
+  vertical-align: middle;
 }

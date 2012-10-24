@@ -1,0 +1,38 @@
+!!! 5
+html(lang='ja')
+  head
+    meta(name='viewport', content='width=device-width')
+    title= title
+    link(rel='stylesheet', href='/bootstrap/css/bootstrap.min.css')
+    link(rel='stylesheet', href='/bootstrap/css/bootstrap-responsive.min.css')
+    link(rel='stylesheet', href='/bootstrap/css/colorpicker.css')
+    link(rel='stylesheet', href='/stylesheets/style.css')
+    script(src='/javascripts/jquery.js')
+    script(src='/javascripts/vendor/moment.js')
+    script(src='/bootstrap/js/bootstrap-colorpicker.js')
+    script
+      $(function() {
+        $('#cp1').colorpicker({
+          format: 'hex'
+        });
+        
+        $('[data-date]').each(function() {
+          $(this).text(moment($(this).data('date')).fromNow());
+        });
+      });
+  body
+    .container
+      .row
+        .span3
+          .well.sidebar-nav
+            ul.nav.nav-list
+              li.nav-header Administration
+              li
+                a(href='/admin/passes/new') New Pass
+              li
+                a(href='/admin/users') Listing users
+              li
+                a(href='/admin/passes') Listing passes
+                
+        .span9
+          block content
