@@ -16,6 +16,14 @@ var express = require('express')
   , mkdirp = require('mkdirp')
   , dirs = require('./config/dirs');
 
+/**
+ * Catch uncaught exceptions.
+ */
+
+process.on('uncaughtException', function(e) {
+  console.error(e.message, e.stack);
+});
+
 var app = express();
 
 app.configure(function(){
