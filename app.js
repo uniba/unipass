@@ -59,16 +59,7 @@ app.post('/v1/devices/:deviceId/registrations/pass.uniba.sample/:serialNumber', 
 app.del('/v1/devices/:deviceId/registrations/pass.uniba.sample/:serialNumber', client.del);
 app.post('/v1/log', client.log);
 
-for (var i in dirs) {
-  console.log(dirs[i]);
-  mkdirp(dirs[i], function(err) {
-    if (err) {
-      console.error(err)
-    } else {
-      //console.log('')
-    }
-  });
-}
+
 // app.get('/push/form', test_push.form);
 // app.get('/push/iptoy', test_push.iptoy);
 // app.post('/push/notify', test_push.notify);

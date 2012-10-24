@@ -1,3 +1,15 @@
-module.exports = {
-  passImages:'./etc/passImages'
+
+var mkdirp = require('mkdirp');
+
+var dirs = module.exports = {
+    passFiles: './public/passes'
+  , passImages: './etc/passImages'
+};
+
+/**
+ * Make directries syncronally.
+ */
+
+for (var i in dirs) {
+  mkdirp.sync(__dirname + '/../' + dirs[i]);
 }
