@@ -59,7 +59,6 @@ app.post('/v1/devices/:deviceId/registrations/pass.uniba.sample/:serialNumber', 
 app.del('/v1/devices/:deviceId/registrations/pass.uniba.sample/:serialNumber', client.del);
 app.post('/v1/log', client.log);
 
-
 // app.get('/push/form', test_push.form);
 // app.get('/push/iptoy', test_push.iptoy);
 // app.post('/push/notify', test_push.notify);
