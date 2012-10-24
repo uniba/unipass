@@ -11,6 +11,7 @@ var express = require('express')
   , notify = require('./routes/notify')
   , http = require('http')
   , path = require('path')
+  , pad = require('pad-component')
   , env = require('./config/env') 
   , mkdirp = require('mkdirp')
   , dirs = require('./config/dirs');
@@ -63,6 +64,17 @@ for (var i in dirs) {
 // app.get('/push/form', test_push.form);
 // app.get('/push/iptoy', test_push.iptoy);
 // app.post('/push/notify', test_push.notify);
+
+
+/**
+ * Show all routes.
+ */
+
+Object.keys(app.routes).forEach(function(method) {
+  app.routes[method].forEach(function(route) {
+    console.log(' \033[33m%s\033[0m : \033[90m%s\033[0m', pad.left(route.method.toUpperCase(), 6), route.path);
+  });
+});
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log("Express server listening on port " + app.get('port'));
