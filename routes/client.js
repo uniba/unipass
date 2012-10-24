@@ -105,7 +105,7 @@ function sendPkpass(serialNumber, res) {
   Pass.findBySerialNumber(serialNumber, function(err, pass) {
     if (err) {
       // TODO: handle error
-      throw res.send(500);
+      return res.send(500);
     }
 
     var filePath = helpers.joinRoot('public/passes/' + pass.serialNumber + '.pkpass')
