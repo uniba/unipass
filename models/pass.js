@@ -4,13 +4,12 @@
  */
 
 var Schema = require('mongoose').Schema
-,User = require('./user')
-,helpers = require('../lib/helpers')
-,template = require('../lib/template')
-,env = require('../config/env')
-,fs = require('fs')
-,crypto = require('crypto');
-
+  , User = require('./user')
+  , helpers = require('../lib/helpers')
+  , template = require('../lib/template')
+  , env = require('../config/env')
+  , fs = require('fs')
+  , crypto = require('crypto');
 
 /**
  * Pass schema definition.

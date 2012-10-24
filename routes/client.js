@@ -93,28 +93,18 @@ function reqLog(req) {
   console.log('pushToken:' + req.body.pushToken);
 }
 
-function sendPkpass(serialNumber,res) {
-
+function sendPkpass(serialNumber, res) {
   Pass.findBySerialNumber(serialNumber, function(err, pass) {
-    // TODO: handle error
-    if (err){
-      throw err;
+    if (err) {
+      // TODO: handle error
+      throw res.send(500);
     }
 
-    var file = helpers.joinRoot('public/passes/' + pass.serialNumber + '.pkpass'), 
-    filestream = fs.createReadStream(file), 
-    filename = path.basename(file), 
-    mimetype = 'application/vnd.apple.pkpass';
-
+    var filePath = helpers.joinRoot('public/passes/' + pass.serialNumber + '.pkpass'), 
+      , filename = path.basename(filePath);
+    
     res.setHeader('Content-disposition', 'attachment; filename=' + filename);
-    res.setHeader('Content-type', mimetype);
-
-    filestream.on('data', function(chunk) {
-      res.write(chunk);
-    });
-
-    filestream.on('end', function() {
-      res.end();
-    });
+    res.setHeader('Content-type', 'application/vnd.apple.pkpass');
+    res.sendfile(filePath);
   });
 }
