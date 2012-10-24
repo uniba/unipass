@@ -28,18 +28,20 @@ var PassSchema = module.exports = new Schema({
   image: String
 });
 
-PassSchema.pre('save', function (next) {
+PassSchema.pre('save', function(next) {
   if (!this.created) this.created = new Date;
   this.updated = new Date;
   next();
-})
-PassSchema.post('save', function () {
+});
+
+PassSchema.post('save', function() {
   console.log('serialNumber:'+this.serialNumber);
   createPassbook(this)
 });
+
 PassSchema.statics.findBySerialNumber = function(serialNumber, callback){
   this.findOne({ serialNumber: serialNumber }, callback);
-}
+};
 
 PassSchema.methods.toFields = function(callback){
   var self = this;
@@ -52,17 +54,18 @@ PassSchema.methods.toFields = function(callback){
     generic: { primaryFields: self.primaryFields },
     webServiceURL:env,
     authenticationToken:self.authenticationToken
-  }
-}
+  };
+};
 
-function createPassbook(passModel){
-  console.log('createPassbook env:'+env);
-  var passbook = template.createPassbook(passModel.toFields()) ,
-  file = helpers.joinRoot('public/passes/' + passModel.serialNumber + '.pkpass');
+function createPassbook(passModel) {
+  console.log('createPassbook env:' + env);
+  
+  var passbook = template.createPassbook(passModel.toFields()),
+    file = helpers.joinRoot('public/passes/' + passModel.serialNumber + '.pkpass');
   
   passbook.icon(helpers.joinRoot('public/images/icon.png'));
   passbook.logo(helpers.joinRoot('public/images/logo.png'));
-  passbook.thumbnail(helpers.joinRoot('etc/passImages/'+passModel.image));
+  passbook.thumbnail(helpers.joinRoot('etc/passImages/' + passModel.image));
   passbook.generate(function(err, buffer) {
     if (err) throw err;
 

@@ -4,13 +4,13 @@
  */
 
 
-exports.show = function(req, res){
+exports.show = function(req, res) {
   //console.log(req.params.id)
   console.log("aaaaa")
-  res.render('form/form', { title: 'form'});
+  res.render('form/form', { title: 'form' });
 };
 
-exports.post = function(req, res){
+exports.post = function(req, res) {
   console.log(req.body.value); // for logging
   res.redirect('form/post');
 };

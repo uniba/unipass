@@ -6,7 +6,7 @@ var base64id = require('base64id')
   , template = require('../lib/template')
   , schema = require('../models')
   , Pass = schema.Pass
-  , User = schema.User;;
+  , User = schema.User;
 
 exports.show = function(req, res) {
   console.log('show----------------------------');
@@ -24,7 +24,7 @@ exports.devise = function(req, res) {
   
   var deviceId = req.params.deviceId,
     serialNumber = req.params.serialNumber,
-    authenticationToken = req.headers.authorization.replace(/ApplePass/,'').trim(),
+    authenticationToken = req.headers.authorization.replace(/ApplePass/, '').trim(),
     pushToken = req.body.pushToken;
   
   Pass.findOne({ serialNumber: serialNumber }, function(err, pass) {

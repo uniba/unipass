@@ -10,7 +10,7 @@ exports.show = function(req, res) {
 exports.devise = function(req, res) {
   reqLog(req);
   res.send(201, 'succsess');
-}; 
+};
 
 exports.del = function(req, res) {
   reqLog(req);
@@ -24,21 +24,22 @@ exports.log = function(req, res) {
 };
 
 exports.notification = function(req, res) {
-  console.log('passesUpdatedSince:'+util.inspect(req.query));
+  console.log('passesUpdatedSince:' + util.inspect(req.query));
   var update = new Date();
   
   data = {
     lastUpdated:update,
     //TODO serialNumbersに新しい、のを入れる。
     serialNumbers:["aaa12aaaadsadgjtwpm"]
-    }
+  };
   res.send(200, JSON.stringify(data));
 };
-function reqLog(req){
+
+function reqLog(req) {
   console.log('serialNumber:' + req.params.serialNumber);
   console.log('deviceId:' + req.params.deviceId);
-  console.log('authorization:'+req.headers.authorization);
-  console.log('pushToken:'+req.body.pushToken);
+  console.log('authorization:' + req.headers.authorization);
+  console.log('pushToken:' + req.body.pushToken);
   //console.log('req:' + util.inspect(req, true, null));
 }
 
@@ -75,13 +76,12 @@ function createPass(res, serialNumber) {
 
   passbook.generate(function(error, buffer) {
     if (error) {
-      console.log('error:' + error);
-    } else {
-      fs.writeFile("./public/" + serialNumber + ".pkpass", buffer);
-      console.log('write');
-      //注目
-      sendFile(res, serialNumber);
+      return console.log('error:' + error);
     }
+    fs.writeFile("./public/" + serialNumber + ".pkpass", buffer);
+    console.log('write');
+    //注目
+    sendFile(res, serialNumber);
   });
 }
 

@@ -13,7 +13,6 @@ var express = require('express')
   , path = require('path')
   , pad = require('pad-component')
   , env = require('./config/env') 
-  , mkdirp = require('mkdirp')
   , dirs = require('./config/dirs');
 
 /**

@@ -30,11 +30,11 @@ exports.notify = function(req, res) {
   note.device = myDevice;
 
   apnsConnection.sendNotification(note);
-  console.log('pushToken:'+req.body.pushToken)
+  console.log('pushToken:' + req.body.pushToken);
   res.redirect('push/form');
 };
 
-function errorCall(err,notification){
-  console.log('err:'+err);
-  console.log('notification:'+notification);  
+function errorCall(err, notification){
+  console.log('err:' + err);
+  console.log('notification:'+notification);
 }
