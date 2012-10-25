@@ -48,6 +48,8 @@ app.configure(function(){
   app.use(express.static(path.join(__dirname, 'public')));
 });
 
+app.locals.title = 'Unipass';
+
 app.configure('development', function(){
   app.use(express.errorHandler());
 });
@@ -57,6 +59,14 @@ app.configure('development', function(){
  */
 
 app.resource('/demo', face);
+
+/**
+ * Routes for reader.
+ */
+
+app.namespace('/reader', function() {
+  // TODO: add routes.
+});
 
 /**
  * Routes for administration.
