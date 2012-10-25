@@ -53,10 +53,10 @@ app.configure('development', function(){
 });
 
 /**
- * Routes for facepass.
+ * Routes for demonstration.
  */
 
-app.resource('/face', face);
+app.resource('/demo', face);
 
 /**
  * Routes for administration.
@@ -73,7 +73,7 @@ app.namespace('/admin', function() {
   app.get('/notify/:serialNumber', notify.index);
 
   // app.get('/form/show', form.show);
-  // app.post('/form/post',form.post);
+  // app.post('/form/post', form.post);
 
   // app.get('/push/form', test_push.form);
   // app.get('/push/iptoy', test_push.iptoy);

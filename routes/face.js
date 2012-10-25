@@ -1,6 +1,6 @@
 
 exports.index = function(req, res) {
-  res.render('face/index');
+  res.redirect('demo/new');
 };
 
 exports.new = function(req, res) {
