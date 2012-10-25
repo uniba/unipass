@@ -19,3 +19,7 @@ table.table th {
 table.table td {
   vertical-align: middle;
 }
+
+.description {
+  background-image: url("../../public/images/kaopass_description.png");
+}
