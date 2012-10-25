@@ -20,6 +20,7 @@ table.table td {
   vertical-align: middle;
 }
 
-.description {
-  background-image: url("../../public/images/kaopass_description.png");
+body {
+  background-image: url("/images/demo/kaopass_description.png");
+  background-repeat: no-repeat;
 }
