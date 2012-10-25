@@ -4,7 +4,7 @@ exports.index = function(req, res) {
 };
 
 exports.new = function(req, res) {
-  res.render('face/new');
+  res.render('face/new', { action: 'face-new' });
 };
 
 exports.create = function(req, res) {
@@ -14,5 +14,5 @@ exports.create = function(req, res) {
 };
 
 exports.show = function(req, res) {
-  res.render('face/show');
+  res.render('face/show', { action: 'face-show' });
 };

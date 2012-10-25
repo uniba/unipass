@@ -20,6 +20,21 @@ table.table td {
   vertical-align: middle;
 }
 
-.description {
-  background-image: url("../../public/images/kaopass_description.png");
+body.face-new {
+  background-image: url("/images/demo/kaopass_description.png");
+  background-repeat: no-repeat;
+  /*background-position: top center; */
+  background-size: cover;
+}
+
+body.face-show {
+  background-image: url("/images/demo/kaopass_download.png");
+  background-repeat: no-repeat;
+  /*background-position: top center; */
+  background-size: cover;
+}
+
+a img {
+  margin: 0 auto;
+  margin-top: 300px;
 }
