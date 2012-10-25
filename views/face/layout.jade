@@ -9,5 +9,14 @@ html(lang='ja')
     script(src='/javascripts/jquery.js')
     script(src='/javascripts/vendor/moment.js')
     script(src='/bootstrap/js/bootstrap-colorpicker.js')
+    script(type='text/javascript')
+      $(function(){
+        $('a img').bind('touchstart', function() {
+          var src = $(this).attr('src');
+          
+          if (src == '/images/demo/btn_photo_normal.png') $(this).attr('src', '/images/demo/btn_photo_touch.png');
+          if (src == '/images/demo/btn_download.png') $(this).attr('src', '/images/demo/btn_download_on.png');
+        });
+      });
   body(class=action)
     block content
