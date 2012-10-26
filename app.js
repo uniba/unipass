@@ -12,10 +12,12 @@ var express = require('express')
   , users = require('./routes/users')
   , notify = require('./routes/notify')
   , http = require('http')
+  , https = require('https')
   , path = require('path')
   , pad = require('pad-component')
   , env = require('./config/env') 
-  , dirs = require('./config/dirs');
+  , dirs = require('./config/dirs')
+  , fs = require('fs');
 
 /**
  * Catch uncaught exceptions.
@@ -28,9 +30,13 @@ process.on('uncaughtException', function(e) {
 /**
  * Create the app.
  */
+var options = {
+  key: fs.readFileSync('etc/server/server.key'),
+  cert: fs.readFileSync('etc/server/server.crt')
+};
 
 var app = express()
-  , server = module.exports = http.createServer(app);
+  , server = module.exports = https.createServer(options, app);
 
 /**
  * Configuration.
