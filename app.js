@@ -31,8 +31,8 @@ process.on('uncaughtException', function(e) {
  * Create the app.
  */
 var options = {
-  key: fs.readFileSync('etc/server/server.key'),
-  cert: fs.readFileSync('etc/server/server.crt')
+  key: fs.readFileSync(path.join(__dirname, 'etc/server/server.key')),
+  cert: fs.readFileSync(path.join(__dirname, 'etc/server/server.crt'))
 };
 
 var app = express()
