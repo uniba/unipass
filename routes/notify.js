@@ -20,7 +20,7 @@ exports.index = function(req, res) {
   })
   res.redirect('/admin');
 }
-
+//https://github.com/argon/node-apn
 function pushNotification(pushTokens, serialNumber) {
   var options = {
     cert : './etc/passbook/keys/uniba.sample.pem', /* Certificate file path */
@@ -64,7 +64,6 @@ exports.notification = function(req, res) {
     var updated = user._passbook.updated;
     data = {
       lastUpdated : updated,
-      //TODO serialNumbersに新しい、のを入れる。
       serialNumbers : [user._passbook.serialNumber]
     };
     res.send(200, JSON.stringify(data));
