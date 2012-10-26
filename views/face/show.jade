@@ -1,5 +1,5 @@
 extends layout
 
 block content
-  a(href='/v1/passes/' + passTypeIdentifier + '/' + pass.serialNumber, class='download')
+  a(href='/v1/passes/' + passTypeIdentifier + '/' + pass.serialNumber, class='demoDownload' ,id='demoDownload')
     img(src='/images/demo/btn_download.png')

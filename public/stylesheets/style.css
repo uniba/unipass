@@ -25,6 +25,7 @@ body.face-new {
   background-repeat: no-repeat;
   /*background-position: top center; */
   background-size: cover;
+  height: 420px;
 }
 
 body.face-show {
@@ -32,12 +33,17 @@ body.face-show {
   background-repeat: no-repeat;
   /*background-position: top center; */
   background-size: cover;
+  height: 420px;  
 }
 
-a img {
+a#demoCapture img {
   margin: 0 auto;
   margin-top: 300px;
 }
-.demoForm{
+a#demoDownload img{
+  margin: 0 auto;
+  margin-top: 65px;
+}
+#demoForm{
   display:none;
 }
