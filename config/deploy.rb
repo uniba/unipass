@@ -22,18 +22,20 @@ set :default_environment, {
   "PATH" => "~/.nodebrew/current/bin:/usr/local/bin:/sbin:$PATH"
 }
 
+set :node_port, 443
+
 default_run_options[:pty] = true
 ssh_options[:forward_agent] = true
 
 namespace :deploy do
   task :start, :roles => :app do
-    sudo "PORT=80 forever start #{current_path}/app.js"
+    sudo "PORT=#{node_port} forever start #{current_path}/app.js"
   end
   task :stop, :roles => :app do
     sudo "forever stop #{current_path}/app.js"
   end
   task :restart, :roles => :app, :except => { :no_release => true } do
-    sudo "PORT=80 forever restart #{current_path}/app.js"
+    sudo "PORT=#{node_port} forever restart #{current_path}/app.js"
   end
 end
 
