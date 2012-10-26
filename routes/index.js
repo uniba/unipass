@@ -45,7 +45,7 @@ exports.new = function(req, res) {
 };
 
 exports.edit = function(req, res) {
-  var passId = req.params.demo;
+  var passId = req.params.pass;
   Pass.findOne({ _id : passId  }, function(err, pass) {
     res.render('admin/passes/edit', { title: 'Edit Pass', pass: pass});
   });

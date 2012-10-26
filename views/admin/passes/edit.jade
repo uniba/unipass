@@ -3,7 +3,7 @@ extends ../layout
 block content
   .page-header
     h1= title
-  form.form-horizontal(action='/admin/passes/' + pass.id, method='post', enctype='multipart/form-data')
+  form.form-horizontal(action='/admin/passes/' + pass._id, method='post', enctype='multipart/form-data')
     input(type='hidden',name='_method', value='put')
     input(type='hidden',name='pass[serialNumber]', value=pass.serialNumber)
     .control-group
