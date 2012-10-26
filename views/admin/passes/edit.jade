@@ -3,7 +3,7 @@ extends ../layout
 block content
   .page-header
     h1= title
-  form.form-horizontal(action='/admin/passes/' + pass.id, method='post')
+  form.form-horizontal(action='/admin/passes/' + pass.id, method='post', enctype='multipart/form-data')
     input(type='hidden',name='_method', value='put')
     input(type='hidden',name='pass[serialNumber]', value=pass.serialNumber)
     .control-group
@@ -26,6 +26,10 @@ block content
       label.control-label Label
       .controls
         input(type='text', name='pass[label]', value=pass.primaryFields[0].label)
-
+    .control-group
+      label.control-label Image
+      img(src='/images/passImages/'+pass.image)
+      .controls
+        input(type='file', name='pass[image]', accept="image/*")
     .form-actions
       button.btn.btn-primary(type='submit') Update pass

@@ -3,7 +3,7 @@ var mkdirp = require('mkdirp');
 
 var dirs = module.exports = {
     passFiles: './public/passes'
-  , passImages: './etc/passImages'
+  , passImages: './public/images/passImages'
 };
 
 /**

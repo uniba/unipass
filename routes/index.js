@@ -66,15 +66,18 @@ exports.update = function(req, res) {
   console.log('params:' + util.inspect(req.params.pass));
 
   Pass.findOne({ _id: req.params.pass }, function(err, pass) {
-    pass.logoText = logoText;
-    pass.description = description;
-    pass.backgroundColor = backgroundColor;
-    pass.primaryFields = primaryFields;
-    pass.save(function(err, pass) {
-      if (err) {
-        return res.send(500);
-      }
-      res.redirect('/admin/passes');
+    saveFile(req.files.pass.image, function(fileName) {
+      pass.logoText = logoText;
+      pass.description = description;
+      pass.backgroundColor = backgroundColor;
+      pass.primaryFields = primaryFields;
+      pass.image = fileName;
+      pass.save(function(err, pass) {
+        if (err) {
+          return res.send(500);
+        }
+        res.redirect('/admin/passes');
+      });
     });
   });
 };
@@ -127,7 +130,7 @@ function saveFile(imageObj, callback) {
   var ext = imageObj.type.match(/\/\w*/)[0].replace(/\//, '.');
   var fromPath = imageObj.path;
   var fileName = base64id.generateId() + '.png';
-  var toPath = __dirname + '/../etc/passImages/' + fileName;
+  var toPath = __dirname + '/../public/images/passImages/' + fileName;
   fs.rename(fromPath, toPath, function(err) {
     if (err) {
       throw err;
@@ -137,7 +140,7 @@ function saveFile(imageObj, callback) {
   });
 };
 
-// TODO あとで使う
+// TODO あとで使うかも
 // function saveFile(imageObj) {
   // var ext = imageObj.type.match(/\/\w*/)[0].replace(/\//, '.');
 // 

@@ -77,17 +77,8 @@ app.namespace('/admin', function() {
 
   app.resource('passes', routes);
   app.resource('users', users);
-
-  // app.get('/passes/download/:id', routes.download);
-  // app.get('/sample', routes.downloadSample);
   app.get('/notify/:serialNumber', notify.index);
 
-  // app.get('/form/show', form.show);
-  // app.post('/form/post', form.post);
-
-  // app.get('/push/form', test_push.form);
-  // app.get('/push/iptoy', test_push.iptoy);
-  // app.post('/push/notify', test_push.notify);
 });
 
 /**

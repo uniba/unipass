@@ -65,7 +65,7 @@ function createPassbook(passModel) {
   
   passbook.icon(helpers.joinRoot('public/images/icon.png'));
   passbook.logo(helpers.joinRoot('public/images/logo.png'));
-  passbook.thumbnail(helpers.joinRoot('etc/passImages/' + passModel.image));
+  passbook.thumbnail(helpers.joinRoot('public/images/passImages/' + passModel.image));
   passbook.generate(function(err, buffer) {
     if (err) throw err;
 

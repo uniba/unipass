@@ -18,7 +18,7 @@ exports.index = function(req, res) {
     console.log('pushTokens:'+pushTokens);
     pushNotification(pushTokens,serialNumber);
   })
-  res.redirect('/passes');
+  res.redirect('/admin');
 }
 
 function pushNotification(pushTokens, serialNumber) {
