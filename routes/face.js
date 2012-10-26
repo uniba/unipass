@@ -13,13 +13,13 @@ exports.new = function(req, res) {
 
 exports.create = function(req, res) {
   // TODO: create new pass.
-  var logoText = 'logoText'
+  var logoText = '顔PASS'
     , description = 'description'
     , backgroundColor = '#bf2e2e'
     , serialNumber = base64id.generateId()
     , primaryFields = [{
         key: 'origin',
-        value: 'value',
+        value: '割引率' + Math.round(Math.random() * 50) + '%',
         label: 'label'
     }];;
   
