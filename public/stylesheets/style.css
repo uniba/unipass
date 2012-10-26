@@ -38,3 +38,6 @@ a img {
   margin: 0 auto;
   margin-top: 300px;
 }
+.demoForm{
+  display:none;
+}

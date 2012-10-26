@@ -1,5 +1,8 @@
 extends layout
 
 block content
-  a(href='#', class='download')
+  form.demoForm(action='/face', method='post', enctype='multipart/form-data',id='demoForm')
+    input(type='file', name='image', accept="image/*" , id='demoImageBtn')
+    button(type='submit') Create pass
+  a(href='#', class='download' , id='demoDownload')
     img(src='/images/demo/btn_photo_normal.png')

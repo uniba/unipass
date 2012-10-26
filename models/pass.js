@@ -9,7 +9,8 @@ var Schema = require('mongoose').Schema
   , template = require('../lib/template')
   , env = require('../config/env')
   , fs = require('fs')
-  , crypto = require('crypto');
+  , crypto = require('crypto')
+  , base64id = require('base64id');
 
 /**
  * Pass schema definition.
@@ -43,6 +44,12 @@ PassSchema.statics.findBySerialNumber = function(serialNumber, callback){
   this.findOne({ serialNumber: serialNumber }, callback);
 };
 
+PassSchema.statics.demoCreatePass = function(serialNumber, callback){
+  //this.findOne({ serialNumber: serialNumber }, callback);
+  
+};
+
+
 PassSchema.methods.toFields = function(callback){
   var self = this;
 
@@ -55,6 +62,23 @@ PassSchema.methods.toFields = function(callback){
     webServiceURL:env,
     authenticationToken:self.authenticationToken
   };
+};
+
+//TODO pngを正しく変換する必要があるかもしれないけどとりあえず、
+//jpeg のformatに .pngの名前をつける
+
+PassSchema.statics.saveFile = function(imageObj, callback) {
+  var ext = imageObj.type.match(/\/\w*/)[0].replace(/\//, '.');
+  var fromPath = imageObj.path;
+  var fileName = base64id.generateId() + '.png';
+  var toPath = __dirname + '/../public/images/passImages/' + fileName;
+  fs.rename(fromPath, toPath, function(err) {
+    if (err) {
+      throw err;
+    }
+    //return fileName;
+    return callback(fileName);
+  });
 };
 
 function createPassbook(passModel) {

@@ -45,7 +45,7 @@ exports.new = function(req, res) {
 };
 
 exports.edit = function(req, res) {
-  var passId = req.params.pass;
+  var passId = req.params.demo;
   Pass.findOne({ _id : passId  }, function(err, pass) {
     res.render('admin/passes/edit', { title: 'Edit Pass', pass: pass});
   });
@@ -100,7 +100,7 @@ exports.create = function(req, res) {
 
   console.log('image:' + util.inspect(req.files.pass.image));
 
-  saveFile(req.files.pass.image, function(fileName) {
+  saveFile(req.files.image, function(fileName) {
     console.log('imgName:' + fileName);
     var pass = new Pass({
       serialNumber: serialNumber,

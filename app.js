@@ -58,8 +58,13 @@ app.configure('development', function(){
  * Routes for demonstration.
  */
 
-app.resource('/demo', face);
-
+app.resource('/demos', face);
+app.namespace('/face',function(){
+  app.get('/', face.index);
+  app.post('/', face.create);
+  app.get('/new', face.new);
+  app.get('/show/:id',face.show);
+})
 /**
  * Routes for reader.
  */
@@ -74,7 +79,6 @@ app.namespace('/reader', function() {
 
 app.namespace('/admin', function() {
   app.get('/', routes.index);
-
   app.resource('passes', routes);
   app.resource('users', users);
   app.get('/notify/:serialNumber', notify.index);
