@@ -69,11 +69,11 @@ app.get('/', function(req, res) {
 });
 
 app.resource('/demos', face);
-app.namespace('/face',function(){
+app.namespace('/face', function() {
   app.get('/', face.index);
   app.post('/', face.create);
   app.get('/new', face.new);
-  app.get('/show/:id',face.show);
+  app.get('/show/:id', face.show);
 })
 /**
  * Routes for reader.
