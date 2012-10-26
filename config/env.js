@@ -1,2 +1,2 @@
 
-module.exports = process.env.NODE_URL || 'http://pass.uniba.jp/';
+module.exports = process.env.NODE_URL || 'https://pass.uniba.jp/';
