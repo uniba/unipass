@@ -64,6 +64,10 @@ app.configure('development', function(){
  * Routes for demonstration.
  */
 
+app.get('/', function(req, res) {
+  res.redirect('/face');
+});
+
 app.resource('/demos', face);
 app.namespace('/face',function(){
   app.get('/', face.index);
