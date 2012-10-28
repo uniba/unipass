@@ -30,6 +30,7 @@ var app = express();
 
 if (config.ssl.secure) {
   var server = module.exports = https.createServer(config.ssl.options, app);
+  require('./lib/redirect').listen(80);
 } else {
   var server = module.exports = http.createServer(app);
 }
