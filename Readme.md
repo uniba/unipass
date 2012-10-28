@@ -1,3 +1,4 @@
+
 # Unipass
 
 Passbook web application for demonstration.
@@ -16,7 +17,7 @@ Passbook web application for demonstration.
 
 #### Run
 
-    $ DEBUG=* node app.js
+    $ DEBUG=unipass:* node app.js
     $ open http://`hostname`:3000
 
 #### Stop
