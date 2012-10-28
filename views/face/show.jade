@@ -1,5 +1,4 @@
 extends layout
 
 block content
-  a(href='/v1/passes/' + passTypeIdentifier + '/' + pass.serialNumber, class='demoDownload' ,id='demoDownload')
-    img(src='/images/demo/btn_download.png')
+  a.demoDownload.touchButton(href='/v1/passes/' + passTypeIdentifier + '/' + pass.serialNumber, id='demoDownload')

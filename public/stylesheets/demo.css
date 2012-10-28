@@ -1,0 +1,53 @@
+
+* {
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+}
+
+.spinner {
+  margin: auto;
+}
+
+body {
+  max-width: 320px;
+  min-height: 100%;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+body.face-new {
+  background-image: url("/images/demo/kaopass_description.png");
+}
+
+body.face-new a {
+  display: block;
+  width: 288px;
+  height: 88px;
+  margin: auto auto;
+  margin-top: 370px;
+  background-image: url('/images/demo/btn_photo_normal.png');
+  background-repeat: no-repeat;
+  background-size: contain;
+}
+
+body.face-new a.touched {
+  background-image: url('/images/demo/btn_photo_touch.png');
+}
+
+body.face-show {
+  background-image: url("/images/demo/kaopass_download.png");
+}
+
+body.face-show a {
+  display: block;
+  width: 288px;
+  height: 88px;
+  margin: auto auto;
+  margin-top: 105px;
+  background-image: url('/images/demo/btn_download.png');
+  background-repeat: no-repeat;
+  background-size: contain;
+}
+
+body.face-show a.touched {
+  background-image: url('/images/demo/btn_download_on.png');
+}

@@ -2,7 +2,7 @@
 html(lang='ja')
   head
     meta(charset='utf-8')
-    meta(name='apple-mobile-web-app-status-bar-style', content='black-translucent')
+    meta(name='apple-mobile-web-app-status-bar-style', content='black')
     meta(name='viewport', content='initial-scale=1, user-scalable=no')
     meta(name='apple-mobile-web-app-capable', content='yes')
     title= title
@@ -11,19 +11,10 @@ html(lang='ja')
     link(rel='stylesheet', href='/bootstrap/css/bootstrap.min.css')
     link(rel='stylesheet', href='/bootstrap/css/bootstrap-responsive.min.css')
     link(rel='stylesheet', href='/bootstrap/css/colorpicker.css')
-    link(rel='stylesheet', href='/stylesheets/style.css')
+    link(rel='stylesheet', href='/stylesheets/demo.css')
     script(src='/javascripts/jquery.js')
-    script(src='/javascripts/vendor/moment.js')
-    script(src='/bootstrap/js/bootstrap-colorpicker.js')
+    script(src='/javascripts/vendor/spin.js')
+    script(src='/javascripts/vendor/jquery.blockUI.js')
     script(src='/javascripts/demo.js')
-    script(type='text/javascript')
-      $(function(){
-        $('a img').bind('touchstart', function() {
-          var src = $(this).attr('src');
-          
-          if (src == '/images/demo/btn_photo_normal.png') $(this).attr('src', '/images/demo/btn_photo_touch.png');
-          if (src == '/images/demo/btn_download.png') $(this).attr('src', '/images/demo/btn_download_on.png');
-        });
-      });
   body(class=action)
     block content
