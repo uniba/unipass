@@ -17,7 +17,7 @@ block content
         td= pass.serialNumber
         td= pass.logoText
         td= pass.description
-        td= pass.backgroundColor
+        td: span.badge(style='background-color: ' + pass.backgroundColor)
         td(data-date=pass.created.getTime())= pass.created
         td(data-date=pass.updated.getTime())= pass.updated
         td
