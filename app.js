@@ -102,8 +102,8 @@ app.namespace('/v1', function() {
   app.post('/log', routes.client.log);
   app.get('/passes/:identifier/:serialNumber', routes.client.show);
   app.get('/devices/:deviceId/registrations/:identifier', routes.notify.notification);
-  app.post('/devices/:deviceId/registrations/:identifier/:serialNumber', routes.client.devise);
-  app.del('/devices/:deviceId/registrations/:identifier/:serialNumber', routes.client.del);
+  app.post('/devices/:deviceId/registrations/:identifier/:serialNumber', routes.client.create);
+  app.del('/devices/:deviceId/registrations/:identifier/:serialNumber', routes.client.delete);
 });
 
 /**

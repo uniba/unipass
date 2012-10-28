@@ -5,14 +5,18 @@
 
 var base64id = require('base64id')
   , fs = require('fs')
-  , helpers = require('../lib/helpers')
   , path = require('path')
+  , util = require('util')
+  , im = require('imagemagick')
+  , formidable = require('formidable') 
+  , helpers = require('../lib/helpers')
   , template = require('../lib/template')
   , schema = require('../models')
-  , Pass = schema.Pass
-  , util = require('util')
-  , formidable = require('formidable') 
-  , im = require('imagemagick');
+  , Pass = schema.Pass;
+
+/**
+ * Expose routes.
+ */
 
 exports.client = require('./client');
 exports.face = require('./face');
@@ -37,6 +41,10 @@ exports.index = function(req, res) {
     });
 };
 
+/**
+ * GET
+ */
+
 exports.show = function(req, res) {
   res.redirect('/admin/passes');
 };
@@ -49,12 +57,20 @@ exports.new = function(req, res) {
   res.render('admin/passes/new', { title: 'New Pass' });
 };
 
+/**
+ * GET
+ */
+
 exports.edit = function(req, res) {
   var passId = req.params.pass;
   Pass.findOne({ _id : passId  }, function(err, pass) {
     res.render('admin/passes/edit', { title: 'Edit Pass', pass: pass});
   });
 };
+
+/**
+ * PUT
+ */
 
 exports.update = function(req, res) {
   var pass = req.body.pass
@@ -68,8 +84,6 @@ exports.update = function(req, res) {
         label: pass.label
       }];
   
-  console.log('params:' + util.inspect(req.params.pass));
-
   Pass.findOne({ _id: req.params.pass }, function(err, pass) {
     saveFile(req.files.pass.image, function(fileName) {
       pass.logoText = logoText;
@@ -103,10 +117,7 @@ exports.create = function(req, res) {
         label: params.label
     }];
 
-  console.log('image:' + util.inspect(req.files.pass.image));
-
   saveFile(req.files.image, function(fileName) {
-    console.log('imgName:' + fileName);
     var pass = new Pass({
       serialNumber: serialNumber,
       description: description,
@@ -125,7 +136,6 @@ exports.create = function(req, res) {
     });
   });
 };
-
 
 
 //TODO pngを正しく変換する必要があるかもしれないけどとりあえず、

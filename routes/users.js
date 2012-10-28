@@ -1,7 +1,16 @@
+
+/**
+ * Module dependencies.
+ */
+
 var models = require('../models')
   , User = models.User
   , helpers = require('../lib/helpers')
   , template = require('../lib/template');
+
+/**
+ * GET /admin/users
+ */
 
 exports.index = function(req, res) {
   User
@@ -12,6 +21,6 @@ exports.index = function(req, res) {
       if (err) {
         return res.send(500);
       }
-      res.render('admin/users/index', { title: 'User List', users: users });
+      res.render('admin/users/index', { title: 'Listing users', users: users });
     });
 };
