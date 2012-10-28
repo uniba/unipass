@@ -14,6 +14,11 @@ var base64id = require('base64id')
   , formidable = require('formidable') 
   , im = require('imagemagick');
 
+exports.client = require('./client');
+exports.face = require('./face');
+exports.notify = require('./notify');
+exports.users = require('./users');
+
 /*
  * GET index.
  */

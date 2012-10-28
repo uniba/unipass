@@ -3,11 +3,12 @@
  * Module dependencies.
  */
 
-var Schema = require('mongoose').Schema
+var debug = require('debug')('unipass:models:pass')
+  , Schema = require('mongoose').Schema
+  , config = require('../config')
   , User = require('./user')
   , helpers = require('../lib/helpers')
   , template = require('../lib/template')
-  , env = require('../config/env')
   , fs = require('fs')
   , crypto = require('crypto')
   , base64id = require('base64id');
@@ -37,7 +38,7 @@ PassSchema.pre('save', function(next) {
 
 PassSchema.post('save', function() {
   console.log('serialNumber:'+this.serialNumber);
-  createPassbook(this)
+  createPassbook(this);
 });
 
 PassSchema.statics.findBySerialNumber = function(serialNumber, callback){
@@ -51,17 +52,18 @@ PassSchema.statics.demoCreatePass = function(serialNumber, callback){
 
 
 PassSchema.methods.toFields = function(callback){
-  var self = this;
-
-  return {
+  var self = this
+    , field =  {
     serialNumber: self.serialNumber,
     logoText: self.logoText,
     description: self.description,
     backgroundColor: self.backgroundColor,
     generic: { primaryFields: self.primaryFields },
-    webServiceURL:env,
+    webServiceURL: config.url,
     authenticationToken:self.authenticationToken
   };
+
+  return field;
 };
 
 //TODO pngを正しく変換する必要があるかもしれないけどとりあえず、
@@ -82,8 +84,6 @@ PassSchema.statics.saveFile = function(imageObj, callback) {
 };
 
 function createPassbook(passModel) {
-  console.log('createPassbook env:' + env);
-  
   var passbook = template.createPassbook(passModel.toFields()),
     file = helpers.joinRoot('public/passes/' + passModel.serialNumber + '.pkpass');
   
