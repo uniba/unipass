@@ -89,19 +89,21 @@ exports.delete = function(req, res) {
     , authenticationToken = req.headers.authorization;
   
   User.findOne({ deviceId: deviceId }, function(err, user) {
-    console.log(user);
-    if (user) {
-      user.deviceId = '';
-      user.save(function(err,user) {
-        if (err) return console.log(err);
-        res.send(200, 'disassociation succeeds,');
-      });
-    } else {
-      res.send(401,'the request is not authorized');
+    if (err) {
+      return res.send(500);
+    } else if (!user) {
+      return res.send(401,'the request is not authorized');
     }
+    
+    user.deviceId = ''; // TODO:
+    
+    user.save(function(err, user) {
+      if (err) {
+        return res.send(500);
+      }
+      res.send(200, 'disassociation succeeds,');
+    });
   });
-  
-  res.send(200, 'succsess');
 };
 
 /**
