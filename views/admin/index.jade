@@ -14,7 +14,7 @@ block content
       th
     each pass in passes
       tr
-        td= pass.serialNumber
+        td: code= pass.serialNumber
         td= pass.logoText
         td= pass.description
         td: span.badge(style='background-color: ' + pass.backgroundColor)

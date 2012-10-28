@@ -5,16 +5,20 @@ block content
     h1= title
   table.table
     tr
-      th Pass Object Id
-      th DeviceId
-      th PushToken
-      th AuthenticationToken
+      th Pass
+      th Device ID
+      th Push Token
+      th Auth Token
       //th Push 更新
+      th Created
+      th Updated
     each user in users
       tr
         td= user._passbook.logoText
-        td= user.deviceId
-        td= user.pushToken
-        td= user.authenticationToken
+        td= user.deviceId.slice(0, 10) + '...'
+        td= user.pushToken.slice(0, 10) + '...'
+        td= user.authenticationToken.slice(0, 10) + '...'
         //td
           a(href='/') Push
+        td(date-data=user.created)= user.created 
+        td(date-data=user.updated)= user.updated
