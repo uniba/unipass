@@ -4,7 +4,7 @@
 #include "ofxTimer.h"
 #include "ofxOsc.h"
 
-#define BARCODE_NUMBER_WIDTH 310
+#define BARCODE_NUMBER_WIDTH 420
 #define WAITING_HEADER_WIDTH 630
 #define THANKS_HEADER_WIDTH  400
 

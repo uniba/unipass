@@ -8,7 +8,7 @@ void testApp::setup() {
     ofSetFullscreen(true);
     
     bReadComplete = false;
-    barcodeLength = 13;
+    barcodeLength = 20;
     
     franklin30.loadFont("frabk.ttf", 30);
 	franklin30.setLineHeight(32.0f);
