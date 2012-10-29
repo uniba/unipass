@@ -51,10 +51,10 @@ exports.notification = function(req, res) {
       var updated = user._passbook.updated;
       
       var data = {
-          lastUpdated: String(+new Date)  // NOTE: must be NSString
+          lastUpdated: String(+ updated)  // NOTE: must be NSString
         , serialNumbers : [user._passbook.serialNumber]
       };
-      
+      console.log(data);
       res.json(200, data);
     });
 };
@@ -77,8 +77,9 @@ function pushNotification(pushTokens, serialNumber) { // TODO: refactor
   };
   
   var apnsConnection = new apns.Connection(options);
-  
+
   for (var i = 0; i < pushTokens.length; i++) {
+    console.log(pushTokens[i])
     var myDevice = new apns.Device(pushTokens[i]);
     var note = new apns.Notification();
     note.serialNumber = serialNumber;
