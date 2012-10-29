@@ -6,7 +6,8 @@
 var base64id = require('base64id')
   , template = require('../lib/template')
   , schema = require('../models')
-  , Pass = schema.Pass;
+  , Pass = schema.Pass
+  , util = require('util');
 
 /**
  * GET /face
@@ -28,36 +29,24 @@ exports.new = function(req, res) {
  * POST /face
  */
 
+
+
 exports.create = function(req, res) {
-  var logoText = '顔PASS'
-    , description = 'description'
-    , backgroundColor = '#bf2e2e'
-    , serialNumber = base64id.generateId()
-    , primaryFields = [{
-        key: 'origin',
-        value: '割引率' + Math.round(Math.random() * 50) + '%',
-        label: 'label'
-    }];;
-  
-  Pass.saveFile(req.files.image, function(fileName) {
-    var pass = new Pass({
-      serialNumber: serialNumber,
-      description: description,
-      logoText: logoText,
-      backgroundColor: backgroundColor,
-      primaryFields: primaryFields,
-      image: fileName
-    });
-  
-    pass.save(function(err, pass) {
-      if (err) {
-        // TODO: handle error
-        return res.send(500);
-      }
-      res.redirect('face/show/' + pass.id);
+  Pass.facePassField(function(passHash) {
+    Pass.saveFile(req.files.image, function(fileName) {
+      passHash['image'] = fileName;
+      var pass = new Pass(passHash);
+      pass.save(function(err, pass) {
+        if (err) {
+          // TODO: handle error
+          return res.send(500);
+        }
+        res.redirect('face/show/' + pass.id);
+      });
     });
   });
 };
+
 
 /**
  * GET /face/:id

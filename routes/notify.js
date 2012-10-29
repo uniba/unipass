@@ -29,7 +29,6 @@ exports.index = function(req, res) {
         }
       }
       pushNotification(pushTokens, serialNumber); // TODO: refactor
-      
       res.redirect('/admin');
     });
 };

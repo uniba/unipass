@@ -20,7 +20,7 @@ body.face-new {
 
 body.face-new a {
   display: block;
-  width: 288px;
+  /*width: 300px;*/
   height: 88px;
   margin: auto auto;
   margin-top: 370px;
@@ -37,17 +37,34 @@ body.face-show {
   background-image: url("/images/demo/kaopass_download.png");
 }
 
-body.face-show a {
+body.face-show a.demoDownload.touchButton {
   display: block;
-  width: 288px;
+  /*width: 300px;*/
   height: 88px;
   margin: auto auto;
   margin-top: 105px;
   background-image: url('/images/demo/btn_download.png');
   background-repeat: no-repeat;
   background-size: contain;
+  padding-bottom:50px;
 }
 
-body.face-show a.touched {
+body.face-show a.demoDownload.touchButton.touched {
   background-image: url('/images/demo/btn_download_on.png');
+}
+
+body.face-show a.backButton.touchButton {
+  display: block;
+  /*width: 138.5px;*/
+  height: 23.5px;
+  margin-left: 5px;
+  margin-top: 145px;
+  margin-bottom:20px;
+  background-image: url('/images/demo/btn_back.png');
+  background-repeat: no-repeat;
+  background-size: contain;
+}
+
+body.face-show a.backButton.touchButton.touched {
+  background-image: url('/images/demo/btn_back_on.png');
 }
