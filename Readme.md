@@ -9,7 +9,7 @@ Passbook web application for demonstration.
 
 ## Installation
 
-#### Grab code and resolving module dependencies.
+#### Setup
 
     $ git clone git@github.com:uniba/Unipass.git
     $ cd Unipass
@@ -17,7 +17,7 @@ Passbook web application for demonstration.
 
 #### Run
 
-    $ DEBUG=unipass:* node app.js
+    $ DEBUG=unipass:* ./node_modules/.bin/node-dev app.js
     $ open http://`hostname`:3000
 
 #### Stop
