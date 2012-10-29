@@ -6,7 +6,7 @@ set :scm_verbose, true
 set :git_shallow_clone, 1
 set :branch, "master"
 
-set :deploy_to, "~/app/#{application}"
+set :deploy_to, "/home/deploy/app/#{application}"
 set :deploy_via, :remote_cache
 
 set :use_sudo, false
