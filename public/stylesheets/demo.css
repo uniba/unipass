@@ -20,7 +20,7 @@ body.face-new {
 
 body.face-new a {
   display: block;
-  width: 300px;
+  /*width: 300px;*/
   height: 88px;
   margin: auto auto;
   margin-top: 370px;
@@ -39,7 +39,7 @@ body.face-show {
 
 body.face-show a.demoDownload.touchButton {
   display: block;
-  width: 300px;
+  /*width: 300px;*/
   height: 88px;
   margin: auto auto;
   margin-top: 105px;
@@ -55,10 +55,11 @@ body.face-show a.demoDownload.touchButton.touched {
 
 body.face-show a.backButton.touchButton {
   display: block;
-  width: 138.5px;
+  /*width: 138.5px;*/
   height: 23.5px;
-  margin-left: 0px;
-  margin-top: 130px;
+  margin-left: 5px;
+  margin-top: 145px;
+  margin-bottom:20px;
   background-image: url('/images/demo/btn_back.png');
   background-repeat: no-repeat;
   background-size: contain;
