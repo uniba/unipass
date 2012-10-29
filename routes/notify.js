@@ -63,9 +63,9 @@ exports.notification = function(req, res) {
 //https://github.com/argon/node-apn
 function pushNotification(pushTokens, serialNumber) { // TODO: refactor
   var options = {
-    cert : './etc/passbook/keys/uniba.sample.pem', /* Certificate file path */
+    cert : __dirname + '/../etc/passbook/keys/uniba.sample.pem', /* Certificate file path */
     certData : null, /* String or Buffer containing certificate data, if supplied uses this instead of cert file path */
-    key : './etc/passbook/keys/key.pem', /* Key file path */
+    key : __dirname + '/../etc/passbook/keys/key.pem', /* Key file path */
     keyData : null, /* String or Buffer containing key data, as certData */
     passphrase : "jhausb1f", /* A passphrase for the Key file */
     ca : null, /* String or Buffer of CA data to use for the TLS connection */
