@@ -18,7 +18,7 @@ var debug = require('debug')('unipass:models:pass')
  */
 
 var PassSchema = module.exports = new Schema({
-  serialNumber: { type: String, unique: true },
+  serialNumber: { type: String, unique: true ,default:base64id.generateId()},
   description: String,
   backgroundColor: String,
   coupon: Schema.Types.Mixed,
@@ -28,7 +28,8 @@ var PassSchema = module.exports = new Schema({
   _users: [{ type: Schema.Types.ObjectId, ref: 'User' }],
   image: String,
   barcode: {type:String , default:base64id.generateId(), unique: true },
-  checked: {type:Boolean , default:false}
+  checked: {type:Boolean , default:false},
+  logoText: String
 });
 
 PassSchema.pre('save', function(next) {
@@ -123,7 +124,33 @@ PassSchema.statics.facePassField = function(callback){
     }
   return callback(pass);
 }
-
+PassSchema.statics.parsePass = function (req,callback){
+  var pass = req.body.pass
+    , serialNumber = pass.serialNumber
+    , logoText = pass.logoText
+    , description = pass.description
+    , backgroundColor = pass.backgroundColor 
+    , coupon = {
+        primaryFields: [{
+          key: 'offer',
+          value: pass.coupon.primaryFields.value,
+          label: pass.coupon.primaryFields.label
+        }],
+        auxiliaryFields : [{
+          key: 'expires',
+          value: pass.coupon.auxiliaryFields.value,
+          label: pass.coupon.auxiliaryFields.label
+        }]
+      };
+  var passHash = {
+     serialNumber:serialNumber
+    , logoText: logoText
+    , description: description
+    , backgroundColor: backgroundColor
+    , coupon: coupon
+    }
+  return callback(passHash);
+} 
 function createPassbook(passModel) {
   var passbook = template.createPassbook(passModel.toFields()),
     file = helpers.joinRoot('public/passes/' + passModel.serialNumber + '.pkpass');

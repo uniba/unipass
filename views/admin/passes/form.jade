@@ -1,0 +1,50 @@
+extends ../layout
+
+block content
+  .page-header
+    h1= title
+  form.form-horizontal(action='/admin/passes/' + passId, method='post', enctype='multipart/form-data')
+    input(type='hidden',name='_method', value=method)
+    input(type='hidden',name='pass[serialNumber]', value=pass.serialNumber)
+    
+    .control-group
+      label.control-label Logo text
+      .controls
+        input(type='text', name='pass[logoText]', value=pass.logoText)
+    
+    .control-group
+      label.control-label Description
+      .controls
+        input(type='text', name='pass[description]', value=pass.description)
+    
+    .control-group
+      label.control-label Background Color
+      .controls
+        input#cp1(type='text', name='pass[backgroundColor]', value=pass.backgroundColor)
+
+    .control-group
+      label.control-label Image
+      img(src='/images/passImages/'+pass.image)
+      .controls
+        input(type='file', name='pass[image]', accept="image/*")
+            
+    legend primaryFields
+    .control-group
+      label.control-label label
+      .controls
+        input(type='text', name='pass[coupon][primaryFields][label]', value=pass.coupon.primaryFields[0].label)
+      label.control-label value
+        .controls
+          input(type='text', name='pass[coupon][primaryFields][value]', value=pass.coupon.primaryFields[0].value)
+
+    legend auxiliaryFields    
+    .control-group
+      label.control-label label
+      .controls
+        input(type='text', name='pass[coupon][auxiliaryFields][label]', value=pass.coupon.auxiliaryFields[0].label)
+      label.control-label value
+        .controls
+          input(type='text', name='pass[coupon][auxiliaryFields][value]', value=pass.coupon.auxiliaryFields[0].value)
+            
+    .form-actions
+      button.btn.btn-primary(type='submit') Update pass

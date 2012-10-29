@@ -54,7 +54,19 @@ exports.show = function(req, res) {
  */
 
 exports.new = function(req, res) {
-  res.render('admin/passes/new', { title: 'New Pass' });
+
+  var pass = new Pass({
+    serialNumber : '',
+    description : '',
+    backgroundColor : '',
+    coupon : {primaryFields:[{value:'',label:''}] , auxiliaryFields:[{value:'',label:''}]},
+    image : '',
+    barcode : '',
+    checked : '',
+    logoText : ''
+  }); 
+  var passId = '';
+  res.render('admin/passes/form', { title: 'New Pass' ,pass:pass,method:'post',passId:passId});
 };
 
 /**
@@ -64,7 +76,8 @@ exports.new = function(req, res) {
 exports.edit = function(req, res) {
   var passId = req.params.pass;
   Pass.findOne({ _id : passId  }, function(err, pass) {
-    res.render('admin/passes/edit', { title: 'Edit Pass', pass: pass});
+    console.log(pass);
+    res.render('admin/passes/form', { title: 'Edit Pass', pass: pass ,method:'put',passId:passId});
   });
 };
 
@@ -73,32 +86,36 @@ exports.edit = function(req, res) {
  */
 
 exports.update = function(req, res) {
-  var pass = req.body.pass
-    , serialNumber = pass.serialNumber
-    , logoText = pass.logoText
-    , description = pass.description
-    , backgroundColor = pass.backgroundColor 
-    , primaryFields = [{
-        key: 'origin',
-        value: pass.value,
-        label: pass.label
-      }];
-  
-  Pass.findOne({ _id: req.params.pass }, function(err, pass) {
-    saveFile(req.files.pass.image, function(fileName) {
-      pass.logoText = logoText;
-      pass.description = description;
-      pass.backgroundColor = backgroundColor;
-      pass.primaryFields = primaryFields;
-      pass.image = fileName;
-      pass.save(function(err, pass) {
-        if (err) {
-          return res.send(500);
-        }
-        res.redirect('/admin/passes');
-      });
+  Pass.parsePass(req,function(passHash){
+    Pass.findOne({ _id: req.params.pass }, function(err, pass) {
+      if(req.files.pass.image.size  == 0){
+          pass.logoText = passHash.logoText;
+          pass.description = passHash.description;
+          pass.backgroundColor = passHash.backgroundColor;
+          pass.coupon = passHash.coupon;      
+          pass.save(function(err, pass) {
+            if (err) {
+              return res.send(500);
+            }
+            res.redirect('/admin/passes');
+          });
+      }else{
+        Pass.saveFile(req.files.pass.image, function(fileName) {
+          pass.logoText = passHash.logoText;
+          pass.description = passHash.description;
+          pass.backgroundColor = passHash.backgroundColor;
+          pass.image = fileName;
+          pass.coupon = passHash.coupon;
+          pass.save(function(err, pass) {
+            if (err) {
+              return res.send(500);
+            }
+            res.redirect('/admin/passes');
+          });
+        });    
+      }
     });
-  });
+  })
 };
 
 /**
@@ -106,33 +123,23 @@ exports.update = function(req, res) {
  */
 
 exports.create = function(req, res) {
-  var params = req.body.pass
-    , serialNumber = base64id.generateId()
-    , logoText = params.logoText
-    , description = params.description
-    , backgroundColor = params.backgroundColor
-    , primaryFields = [{
-        key: 'origin',
-        value: params.value,
-        label: params.label
-    }];
-
-  saveFile(req.files.pass.image, function(fileName) {
-    var pass = new Pass({
-      serialNumber: serialNumber,
-      description: description,
-      logoText: logoText,
-      backgroundColor: backgroundColor,
-      primaryFields: primaryFields,
-      image: fileName
-    });
-  
-    pass.save(function(err, pass) {
-      if (err) {
-        // TODO: handle error
-        throw err;
-      }
-      res.redirect('/admin/passes');
+  Pass.parsePass(req,function(passHash){
+    saveFile(req.files.pass.image, function(fileName) {
+      var pass = new Pass({
+        description: passHash.description,
+        logoText: passHash.logoText,
+        backgroundColor: passHash.backgroundColor,
+        coupon: passHash.coupon,
+        image: fileName
+      });
+    
+      pass.save(function(err, pass) {
+        if (err) {
+          // TODO: handle error
+          throw err;
+        }
+        res.redirect('/admin/passes');
+      });
     });
   });
 };
