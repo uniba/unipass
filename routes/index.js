@@ -88,24 +88,21 @@ exports.edit = function(req, res) {
 exports.update = function(req, res) {
   Pass.parsePass(req,function(passHash){
     Pass.findOne({ _id: req.params.pass }, function(err, pass) {
+      pass.logoText = passHash.logoText;
+      pass.description = passHash.description;
+      pass.backgroundColor = passHash.backgroundColor;
+      pass.coupon = passHash.coupon;
+      
       if(req.files.pass.image.size  == 0){
-          pass.logoText = passHash.logoText;
-          pass.description = passHash.description;
-          pass.backgroundColor = passHash.backgroundColor;
-          pass.coupon = passHash.coupon;      
-          pass.save(function(err, pass) {
-            if (err) {
-              return res.send(500);
-            }
-            res.redirect('/admin/passes');
-          });
+        pass.save(function(err, pass) {
+          if (err) {
+            return res.send(500);
+          }
+          res.redirect('/admin/passes');
+        });
       }else{
         Pass.saveFile(req.files.pass.image, function(fileName) {
-          pass.logoText = passHash.logoText;
-          pass.description = passHash.description;
-          pass.backgroundColor = passHash.backgroundColor;
           pass.image = fileName;
-          pass.coupon = passHash.coupon;
           pass.save(function(err, pass) {
             if (err) {
               return res.send(500);

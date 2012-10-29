@@ -11,8 +11,8 @@ var debug = require('debug')('unipass:models:pass')
   , template = require('../lib/template')
   , fs = require('fs')
   , crypto = require('crypto')
-  , base64id = require('base64id');
-
+  , base64id = require('base64id')
+  , image_processor = require('../lib/image_processor');
 /**
  * Pass schema definition.
  */
@@ -36,9 +36,7 @@ PassSchema.pre('save', function(next) {
   console.log('this save:'+this);
   if (!this.created) this.created = new Date;
   this.updated = new Date;
-  
   this.authenticationToken = crypto.randomBytes(48).toString('hex');
-  
   next();
 });
 
@@ -76,23 +74,7 @@ PassSchema.methods.toFields = function(callback){
 };
 
 
-//TODO pngを正しく変換する必要があるかもしれないけどとりあえず、
-//jpeg のformatに .pngの名前をつける
-
-
-PassSchema.statics.saveFile = function (imageObj, callback){
-  var ext = imageObj.type.match(/\/\w*/)[0].replace(/\//, '.');
-  var fromPath = imageObj.path;
-  var fileName = base64id.generateId() + '.png';
-  var toPath = __dirname + '/../public/images/passImages/' + fileName;
-  fs.rename(fromPath, toPath, function(err) {
-    if (err) {
-      throw err;
-    }
-    //return fileName;
-    return callback(fileName);
-  }); 
-};
+PassSchema.statics.saveFile = image_processor;
 
 PassSchema.statics.facePassField = function(callback){
   var description = 'description'
