@@ -3,7 +3,7 @@ body {
   padding: 50px;
   font: 13px "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-weight: 200;
-  background-color:#F0F8FF;
+  /* background-color: #F0F8FF; */
 }
 
 a {
@@ -20,4 +20,9 @@ table.table th {
 
 table.table td {
   vertical-align: middle;
+}
+
+td .badge {
+  box-shadow: inset 0 1px 1px rgba(0, 0, 0, .2);
+  border: 1px rgba(0, 0, 0, .1) solid;
 }
