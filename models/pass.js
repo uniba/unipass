@@ -19,10 +19,9 @@ var debug = require('debug')('unipass:models:pass')
 
 var PassSchema = module.exports = new Schema({
   serialNumber: { type: String, unique: true },
-  logoText: String,
   description: String,
   backgroundColor: String,
-  primaryFields: [Schema.Types.Mixed],
+  coupon: Schema.Types.Mixed,
   created: { type: Date, default: Date.now },
   updated: { type: Date, default: Date.now },
   authenticationToken:{ type: String },
@@ -33,6 +32,7 @@ var PassSchema = module.exports = new Schema({
 });
 
 PassSchema.pre('save', function(next) {
+  console.log('this save:'+this);
   if (!this.created) this.created = new Date;
   this.updated = new Date;
   
@@ -57,17 +57,16 @@ PassSchema.statics.demoCreatePass = function(serialNumber, callback){
 
 
 PassSchema.methods.toFields = function(callback){
-  var self = this
-    , field =  {
-    serialNumber: self.serialNumber,
-    logoText: self.logoText,
-    description: self.description,
-    backgroundColor: self.backgroundColor,
-    generic: { primaryFields: self.primaryFields },
+  console.log('this:'+this);
+  var field =  {
+    serialNumber: this.serialNumber,
+    description: this.description,
+    backgroundColor: this.backgroundColor,
+    coupon: this.coupon,
     webServiceURL: config.url,
-    authenticationToken:self.authenticationToken,
+    authenticationToken:this.authenticationToken,
     barcode:{
-      message:self.barcode,
+      message:this.barcode,
       format:'PKBarcodeFormatPDF417',
       messageEncoding : "iso-8859-1"
     }
@@ -75,11 +74,7 @@ PassSchema.methods.toFields = function(callback){
 
   return field;
 };
-  // "barcode" : {
-    // "message" : "123456789",
-    // "format" : "PKBarcodeFormatPDF417",
-    // "messageEncoding" : "iso-8859-1"
-  // }
+
 //TODO pngを正しく変換する必要があるかもしれないけどとりあえず、
 //jpeg のformatに .pngの名前をつける
 
@@ -103,7 +98,8 @@ function createPassbook(passModel) {
   
   passbook.icon(helpers.joinRoot('public/images/icon.png'));
   passbook.logo(helpers.joinRoot('public/images/logo.png'));
-  passbook.thumbnail(helpers.joinRoot('public/images/passImages/' + passModel.image));
+  passbook.strip(helpers.joinRoot('public/images/passImages/'+passModel.image));
+  //passbook.thumbnail(helpers.joinRoot('public/images/passImages/' + passModel.image));
   passbook.generate(function(err, buffer) {
     if (err) throw err;
 

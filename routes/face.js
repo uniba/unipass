@@ -29,26 +29,37 @@ exports.new = function(req, res) {
  */
 
 exports.create = function(req, res) {
-  var logoText = '顔PASS'
-    , description = 'description'
-    , backgroundColor = '#bf2e2e'
+  var description = 'description'
+    , backgroundColor = '#ffffff'
     , serialNumber = base64id.generateId()
     , primaryFields = [{
-        key: 'origin',
-        value: '割引率' + Math.round(Math.random() * 50) + '%',
-        label: 'label'
-    }];;
-  
+        key: 'offer',
+        value:  Math.round(Math.random() * 50) + '%',
+        label: 'あなたの割引率は'
+    }];
+    var date = new Date();
+    var expire = new Date(date.getFullYear(),date.getMonth()+2,date.getDate());
+    var auxiliaryFields = [
+      {
+        "key" : "expires",
+        "label" : "EXPIRES",
+        "value" : expire.getFullYear()+'/'+expire.getMonth()+'/'+expire.getDate()
+      }
+    ];
+    var coupon =  {
+        "primaryFields":primaryFields ,
+        "auxiliaryFields":auxiliaryFields
+    };
+
   Pass.saveFile(req.files.image, function(fileName) {
     var pass = new Pass({
       serialNumber: serialNumber,
       description: description,
-      logoText: logoText,
       backgroundColor: backgroundColor,
-      primaryFields: primaryFields,
+      coupon: coupon,
       image: fileName
     });
-  
+    
     pass.save(function(err, pass) {
       if (err) {
         // TODO: handle error
