@@ -117,7 +117,7 @@ exports.create = function(req, res) {
         label: params.label
     }];
 
-  saveFile(req.files.image, function(fileName) {
+  saveFile(req.files.pass.image, function(fileName) {
     var pass = new Pass({
       serialNumber: serialNumber,
       description: description,
@@ -142,6 +142,7 @@ exports.create = function(req, res) {
 //jpeg のformatに .pngの名前をつける
 
 function saveFile(imageObj, callback) {
+  console.log(imageObj);
   var ext = imageObj.type.match(/\/\w*/)[0].replace(/\//, '.');
   var fromPath = imageObj.path;
   var fileName = base64id.generateId() + '.png';
@@ -156,13 +157,16 @@ function saveFile(imageObj, callback) {
 };
 
 // TODO あとで使うかも
+//iphoneの画像はmeatadataで方向とかが指定されているのでそれの修正
+//http://www.netoven.com/det.php?d=20120927134402
+//http://thenewglory.blog.fc2.com/blog-category-12.html
+
 // function saveFile(imageObj) {
   // var ext = imageObj.type.match(/\/\w*/)[0].replace(/\//, '.');
 // 
   // var fromPath = imageObj.path;
   // im.readMetadata(fromPath,function(err,metadata){
-    // //http://www.netoven.com/det.php?d=20120927134402
-    // //http://thenewglory.blog.fc2.com/blog-category-12.html
+
     // console.log(metadata.exif)
     // var orientation = metadata.exif.orientation;
     // switch(orientation){
@@ -197,17 +201,3 @@ function saveFile(imageObj, callback) {
   // }
   // return fileName;
 // }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
