@@ -57,7 +57,6 @@ PassSchema.statics.demoCreatePass = function(serialNumber, callback){
 
 
 PassSchema.methods.toFields = function(callback){
-  console.log('this:'+this);
   var field =  {
     serialNumber: this.serialNumber,
     description: this.description,
@@ -75,10 +74,12 @@ PassSchema.methods.toFields = function(callback){
   return field;
 };
 
+
 //TODO pngを正しく変換する必要があるかもしれないけどとりあえず、
 //jpeg のformatに .pngの名前をつける
 
-PassSchema.statics.saveFile = function(imageObj, callback) {
+
+PassSchema.statics.saveFile = function (imageObj, callback){
   var ext = imageObj.type.match(/\/\w*/)[0].replace(/\//, '.');
   var fromPath = imageObj.path;
   var fileName = base64id.generateId() + '.png';
@@ -89,15 +90,46 @@ PassSchema.statics.saveFile = function(imageObj, callback) {
     }
     //return fileName;
     return callback(fileName);
-  });
+  }); 
 };
+
+PassSchema.statics.facePassField = function(callback){
+  var description = 'description'
+    , backgroundColor = '#ffffff'
+    , serialNumber = base64id.generateId()
+    , primaryFields = [{
+        key: 'offer',
+        value:  Math.round(Math.random() * 50) + '%',
+        label: 'あなたの割引率は'
+    }];
+  var date = new Date();
+  var expire = new Date(date.getFullYear(),date.getMonth()+2,date.getDate());
+  var auxiliaryFields = [
+    {
+      "key" : "expires",
+      "label" : "EXPIRES",
+      "value" : expire.getFullYear()+'/'+expire.getMonth()+'/'+expire.getDate()
+    }
+  ];
+  var coupon =  {
+      "primaryFields":primaryFields ,
+      "auxiliaryFields":auxiliaryFields
+  };
+  var pass = {
+      serialNumber: serialNumber,
+      description: description,
+      backgroundColor: backgroundColor,
+      coupon: coupon
+    }
+  return callback(pass);
+}
 
 function createPassbook(passModel) {
   var passbook = template.createPassbook(passModel.toFields()),
     file = helpers.joinRoot('public/passes/' + passModel.serialNumber + '.pkpass');
   
-  passbook.icon(helpers.joinRoot('public/images/icon.png'));
-  passbook.logo(helpers.joinRoot('public/images/logo.png'));
+  passbook.icon(helpers.joinRoot('public/images/icon@2x.png'));
+  passbook.logo(helpers.joinRoot('public/images/logo@2x.png'));
   passbook.strip(helpers.joinRoot('public/images/passImages/'+passModel.image));
   //passbook.thumbnail(helpers.joinRoot('public/images/passImages/' + passModel.image));
   passbook.generate(function(err, buffer) {
