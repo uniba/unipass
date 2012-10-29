@@ -25,14 +25,19 @@ var PassSchema = module.exports = new Schema({
   primaryFields: [Schema.Types.Mixed],
   created: { type: Date, default: Date.now },
   updated: { type: Date, default: Date.now },
-  authenticationToken:{ type: String , default: crypto.randomBytes(48).toString('hex') },
-  _users : [{ type: Schema.Types.ObjectId, ref: 'User' }],
-  image: String
+  authenticationToken:{ type: String },
+  _users: [{ type: Schema.Types.ObjectId, ref: 'User' }],
+  image: String,
+  barcode: {type:String , default:base64id.generateId(), unique: true },
+  checked: {type:Boolean , default:false}
 });
 
 PassSchema.pre('save', function(next) {
   if (!this.created) this.created = new Date;
   this.updated = new Date;
+  
+  this.authenticationToken = crypto.randomBytes(48).toString('hex');
+  
   next();
 });
 
@@ -60,12 +65,21 @@ PassSchema.methods.toFields = function(callback){
     backgroundColor: self.backgroundColor,
     generic: { primaryFields: self.primaryFields },
     webServiceURL: config.url,
-    authenticationToken:self.authenticationToken
+    authenticationToken:self.authenticationToken,
+    barcode:{
+      message:self.barcode,
+      format:'PKBarcodeFormatPDF417',
+      messageEncoding : "iso-8859-1"
+    }
   };
 
   return field;
 };
-
+  // "barcode" : {
+    // "message" : "123456789",
+    // "format" : "PKBarcodeFormatPDF417",
+    // "messageEncoding" : "iso-8859-1"
+  // }
 //TODO pngを正しく変換する必要があるかもしれないけどとりあえず、
 //jpeg のformatに .pngの名前をつける
 
