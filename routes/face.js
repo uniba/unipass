@@ -37,6 +37,8 @@ exports.create = function(req, res) {
     Pass.saveFile(req.files.image, function(fileName) {
       passHash['image'] = fileName;
       var pass = new Pass(passHash);
+      pass.serialNumber = base64id.generateId();
+      pass.barcode = base64id.generateId();
       pass.save(function(err, pass) {
         if (err) {
           // TODO: handle error
