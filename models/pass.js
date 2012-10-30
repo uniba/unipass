@@ -36,8 +36,6 @@ PassSchema.pre('save', function(next) {
   console.log('this save:'+this);
   if (!this.created) {
     this.created = new Date;
-    this.serialNumber = base64id.generateId();
-    this.barcode = base64id.generateId();
   }
   this.updated = new Date;
   this.authenticationToken = crypto.randomBytes(48).toString('hex');
@@ -82,7 +80,7 @@ PassSchema.statics.saveFile = image_processor;
 
 PassSchema.statics.facePassField = function(callback){
   var description = 'description'
-    , backgroundColor = '#ffffff'
+    , backgroundColor = ['#ffffff', '#00a0e9', '#fff100', '#009944#', '#ff1a1a'][Math.floor(Math.random() * 5)]
     , serialNumber = base64id.generateId()
     , primaryFields = [{
         key: 'offer',
