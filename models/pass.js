@@ -18,7 +18,7 @@ var debug = require('debug')('unipass:models:pass')
  */
 
 var PassSchema = module.exports = new Schema({
-  serialNumber: { type: String, unique: true, default: base64id.generateId },
+  serialNumber: { type: String, unique: true },
   description: String,
   backgroundColor: String,
   coupon: Schema.Types.Mixed,
@@ -27,14 +27,18 @@ var PassSchema = module.exports = new Schema({
   authenticationToken:{ type: String },
   _users: [{ type: Schema.Types.ObjectId, ref: 'User' }],
   image: String,
-  barcode: { type:String, default: base64id.generateId, unique: true },
+  barcode: { type:String, unique: true },
   checked: { type:Boolean, default: false },
   logoText: String
 });
 
 PassSchema.pre('save', function(next) {
   console.log('this save:'+this);
-  if (!this.created) this.created = new Date;
+  if (!this.created) {
+    this.created = new Date;
+    this.serialNumber = base64id.generateId();
+    this.barcode = base64id.generateId();
+  }
   this.updated = new Date;
   this.authenticationToken = crypto.randomBytes(48).toString('hex');
   next();
