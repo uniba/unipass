@@ -4,6 +4,7 @@
  */
 
 var base64id = require('base64id')
+  , debug = require('debug')('unipass:app:face')
   , template = require('../lib/template')
   , schema = require('../models')
   , Pass = schema.Pass
