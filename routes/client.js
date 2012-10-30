@@ -28,11 +28,12 @@ exports.show = function(req, res) {
     }
 
     var filePath = helpers.joinRoot('public/passes/' + pass.serialNumber + '.pkpass')
+      , stream = fs.createReadStream(filePath)
       , filename = path.basename(filePath);
 
     res.setHeader('Content-disposition', 'attachment; filename=' + filename);
     res.setHeader('Content-type', 'application/vnd.apple.pkpass');
-    res.sendfile(filePath);
+    stream.pipe(res);
   });
 };
 
