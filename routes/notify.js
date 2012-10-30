@@ -41,18 +41,21 @@ exports.notification = function(req, res) {
   var deviceId = req.params.deviceId;
   
   User
-    .findOne({ deviceId: deviceId })
+    .find({ deviceId: deviceId })
     .populate('_passbook')
-    .exec(function (err, user) {
+    .exec(function (err, users) {
       if (err) {
         return res.send(404, 'error');
       }
       
-      var updated = user._passbook.updated;
+      var serials = [];
+      users.forEach(function(user, index) {
+        serials.push(user._passbook.serialNumber);
+      });
       
       var data = {
-          lastUpdated: String(+ updated)  // NOTE: must be NSString
-        , serialNumbers : [user._passbook.serialNumber]
+          lastUpdated: String(+new Date())  // NOTE: must be NSString
+        , serialNumbers : serials
       };
       console.log(data);
       res.json(200, data);
