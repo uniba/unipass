@@ -39,6 +39,7 @@ exports.create = function(req, res) {
       pass.save(function(err, pass) {
         if (err) {
           // TODO: handle error
+          debug(err);
           return res.send(500);
         }
         res.redirect('face/show/' + pass.id);
