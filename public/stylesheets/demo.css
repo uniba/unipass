@@ -20,8 +20,8 @@ body.face-new {
 
 body.face-new a {
   display: block;
-  /*width: 300px;*/
   height: 88px;
+  width: 259px;
   margin: auto auto;
   margin-top: 370px;
   background-image: url('/images/demo/btn_photo_normal.png');
@@ -40,13 +40,14 @@ body.face-show {
 body.face-show a.demoDownload.touchButton {
   display: block;
   /*width: 300px;*/
-  height: 88px;
+  height: 73px;
+  width: 258px;
   margin: auto auto;
   margin-top: 105px;
   background-image: url('/images/demo/btn_download.png');
   background-repeat: no-repeat;
   background-size: contain;
-  padding-bottom:50px;
+  padding-bottom: 50px;
 }
 
 body.face-show a.demoDownload.touchButton.touched {
@@ -55,16 +56,16 @@ body.face-show a.demoDownload.touchButton.touched {
 
 body.face-show a.backButton.touchButton {
   display: block;
-  /*width: 138.5px;*/
-  height: 23.5px;
-  margin-left: 5px;
+  height: 73px;
+  width: 258px;
+  margin: auto auto;
   margin-top: 145px;
-  margin-bottom:20px;
-  background-image: url('/images/demo/btn_back.png');
+  margin-bottom: 20px;
+  background-image: url('/images/demo/btn_retry.png');
   background-repeat: no-repeat;
   background-size: contain;
 }
 
 body.face-show a.backButton.touchButton.touched {
-  background-image: url('/images/demo/btn_back_on.png');
+  background-image: url('/images/demo/btn_retry_on.png');
 }
