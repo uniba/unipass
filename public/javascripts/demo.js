@@ -7,23 +7,10 @@ $(function() {
 
   $('input#demoImageBtn').on('change', function(event) {
     var div = document.createElement('div')
-      , spinner = new Spinner({
-            color: '#fff'
-          , lines: 13
-          , length: 5
-          , width: 2
-          , radius: 6
-          , corners: 1.0
-          , rotate: 0
-          , trail: 60
-          , speed: 1.0
-        }).spin(div);
+      , spinner = new Spinner({ color: '#fff' }).spin(div);
     
     $.blockUI({ message: div });
-    
-    $(document.body).one('click touchstart', function() {
-      $('form#demoForm').trigger('submit');      
-    });
+    $('form#demoForm').trigger('submit');
   });
   
   $('#demoCapture').on('click', function(event) {
